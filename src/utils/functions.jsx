@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import customFetch from "./customFetch";
 import { splitErrors } from "./splitErrors";
 import CryptoJS from "crypto-js";
+import axios from "axios";
 
 // ------
 export const adUserBadge = (type) => {
@@ -43,6 +44,15 @@ export const tenureBadge = (tenure) => {
         <Badge className="text-[10px] bg-muted-foreground/90">yearly</Badge>
       );
   }
+};
+
+// ------
+export const getCityState = async (code) => {
+  const response = await axios.get(
+    `https://api.postalpincode.in/pincode/${Number(code)}`
+  );
+
+  return response;
 };
 
 // ------

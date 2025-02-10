@@ -6,4 +6,6 @@ export { default as AppContentWrapper } from "@/components/app/wrappers/AppConte
 export { default as AppPageWrapper } from "@/components/app/wrappers/AppPageWrapper";
 export { default as AppSkeletonTableRow } from "@/components/app/AppSkeletonTableRow";
 export { default as AppAddEditPlanAttribute } from "@/components/app/plan/AppAddEditPlanAttribute";
+export { default as AppPopver } from "@/components/app/AppPopover";
+export { default as AppPageLoader } from "@/components/app/AppPageLoader";
 // Application related components end -----------------------------------------------------------
