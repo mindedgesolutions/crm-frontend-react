@@ -49,11 +49,20 @@ const Signin = () => {
     let data = Object.fromEntries(formData);
     data = { ...data, remember: data.remember === "on" ? true : false };
 
+    let errorCount = 0;
+    let errorBag = {};
+
     if (!data.email) {
-      return setErrors({ ...errors, email: ["Password is required"] });
+      errorBag = { ...errorBag, email: ["Email is required"] };
+      errorCount++;
     }
     if (!data.password) {
-      return setErrors({ ...errors, password: ["Password is required"] });
+      errorBag = { ...errorBag, password: ["Password is required"] };
+      errorCount++;
+    }
+
+    if (errorCount > 0) {
+      return setErrors(errorBag);
     }
 
     setIsLoading(true);
