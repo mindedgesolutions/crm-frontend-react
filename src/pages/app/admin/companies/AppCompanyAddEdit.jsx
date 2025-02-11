@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import customFetch from "@/utils/customFetch";
 import { getCityState } from "@/utils/functions";
+import showSuccess from "@/utils/showSuccess";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -63,10 +65,104 @@ const AppCompanyAddEdit = () => {
 
   // ---------------------------------------------
 
-  const handleSubmit = (e) => {
+  const resetErrors = (e) => {
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  // ---------------------------------------------
+
+  const resetForm = () => {
+    setForm({
+      ...form,
+      name: "",
+      email: "",
+      website: "",
+      address: "",
+      location: "",
+      pincode: "",
+      city: "",
+      state: "",
+      contactPerson: "",
+      mobile: "",
+      username: "",
+      userEmail: "",
+    });
+  };
+
+  // ---------------------------------------------
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name)
-      return setErrors({ ...errors, name: "Company name is required" });
+
+    let errorCount = 0;
+    let errorBag = {};
+
+    if (!form.name) {
+      errorBag = { ...errorBag, name: "Company name is required" };
+      errorCount++;
+    }
+    if (!form.email) {
+      errorBag = { ...errorBag, email: "Company email is required" };
+      errorCount++;
+    }
+    if (!form.address) {
+      errorBag = { ...errorBag, address: "Company address is required" };
+      errorCount++;
+    }
+    if (!form.location) {
+      errorBag = { ...errorBag, location: "Company location is required" };
+      errorCount++;
+    }
+    if (!form.pincode) {
+      errorBag = { ...errorBag, pincode: "Company PIN code is required" };
+      errorCount++;
+    }
+    if (!form.city) {
+      errorBag = { ...errorBag, city: "Company city is required" };
+      errorCount++;
+    }
+    if (!form.state) {
+      errorBag = { ...errorBag, state: "Company state is required" };
+      errorCount++;
+    }
+    if (!form.contactPerson) {
+      errorBag = { ...errorBag, contactPerson: "Contact person is required" };
+      errorCount++;
+    }
+    if (!form.mobile) {
+      errorBag = { ...errorBag, mobile: "Contact person mobile is required" };
+      errorCount++;
+    }
+    if (!form.username) {
+      errorBag = { ...errorBag, username: "App user name is required" };
+      errorCount++;
+    }
+    if (!form.userEmail) {
+      errorBag = { ...errorBag, userEmail: "App user email is required" };
+      errorCount++;
+    }
+
+    if (errorCount > 0) {
+      setErrors(errorBag);
+      return;
+    }
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+
+    setIsLoading(true);
+
+    try {
+      const response = await customFetch.post(`/admin/companies`, data);
+      setIsLoading(false);
+      if (response.status === 201) {
+        showSuccess("Company added successfully");
+      }
+      resetForm();
+    } catch (error) {
+      setIsLoading(false);
+      setErrors(error?.response?.data?.errors);
+    }
   };
 
   return (
@@ -85,10 +181,10 @@ const AppCompanyAddEdit = () => {
               General information
             </h3>
           </div>
-          <div className="flex flex-row justify-between items-center gap-4 mb-4">
-            <div className="basis-1/3 flex flex-col space-y-2">
+          <div className="flex flex-row justify-between items-center gap-4 mb-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="name"
               >
                 company name <span className="text-red-500">*</span>
@@ -99,14 +195,15 @@ const AppCompanyAddEdit = () => {
                 id="name"
                 placeholder="Company name is required"
                 autoFocus={true}
+                value={form.name}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
-              {errors?.name && (
-                <span className="text-destructive">{errors?.name}</span>
-              )}
+              <span className="text-red-500 text-xs h-4">{errors?.name}</span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="email"
               >
                 company email <span className="text-red-500">*</span>
@@ -116,11 +213,15 @@ const AppCompanyAddEdit = () => {
                 name="email"
                 id="email"
                 placeholder="A valid email is a must"
+                value={form.email}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">{errors?.email}</span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="website"
               >
                 company website
@@ -130,13 +231,19 @@ const AppCompanyAddEdit = () => {
                 name="website"
                 id="website"
                 placeholder="Website URL (if there is any)"
+                value={form.website}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.website}
+              </span>
             </div>
           </div>
-          <div className="flex flex-row justify-center items-start gap-4 mb-4">
-            <div className="basis-1/3 flex flex-col space-y-2">
+          <div className="flex flex-row justify-center items-start gap-4 mb-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="address"
               >
                 address <span className="text-red-500">*</span>
@@ -146,11 +253,17 @@ const AppCompanyAddEdit = () => {
                 name="address"
                 id="address"
                 placeholder="Complete address"
+                value={form.address}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.address}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="location"
               >
                 location <span className="text-red-500">*</span>
@@ -160,14 +273,20 @@ const AppCompanyAddEdit = () => {
                 name="location"
                 id="location"
                 placeholder="Company location is required"
+                value={form.location}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.location}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2"></div>
+            <div className="basis-1/3 flex flex-col"></div>
           </div>
           <div className="flex flex-row justify-between items-center gap-4">
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="pincode"
               >
                 PIN code <span className="text-red-500">*</span>
@@ -179,11 +298,15 @@ const AppCompanyAddEdit = () => {
                 placeholder="Company PIN code is required"
                 value={form.pincode}
                 onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.pincode}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="city"
               >
                 city
@@ -195,12 +318,14 @@ const AppCompanyAddEdit = () => {
                 placeholder="Company city is required"
                 value={form.city}
                 onChange={handleChange}
+                onKeyUp={resetErrors}
                 readOnly={true}
               />
+              <span className="text-red-500 text-xs h-4">{errors?.city}</span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="state"
               >
                 state
@@ -212,8 +337,10 @@ const AppCompanyAddEdit = () => {
                 placeholder="State is required"
                 value={form.state}
                 onChange={handleChange}
+                onKeyUp={resetErrors}
                 readOnly={true}
               />
+              <span className="text-red-500 text-xs h-4">{errors?.state}</span>
             </div>
           </div>
         </div>
@@ -225,9 +352,9 @@ const AppCompanyAddEdit = () => {
             </h3>
           </div>
           <div className="flex flex-row justify-between items-center gap-4 mb-4">
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="contactPerson"
               >
                 contact person <span className="text-red-500">*</span>
@@ -237,11 +364,17 @@ const AppCompanyAddEdit = () => {
                 name="contactPerson"
                 id="contactPerson"
                 placeholder="Company contact person is required"
+                value={form.contactPerson}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.contactPerson}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <Label
-                className="text-muted-foreground text-xs uppercase"
+                className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="mobile"
               >
                 mobile no. <span className="text-red-500">*</span>
@@ -251,15 +384,19 @@ const AppCompanyAddEdit = () => {
                 name="mobile"
                 id="mobile"
                 placeholder="Contact person mobile no. is required"
+                value={form.mobile}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">{errors?.mobile}</span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2"></div>
+            <div className="basis-1/3 flex flex-col"></div>
           </div>
           <div className="flex flex-row justify-between items-center gap-4">
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <div className="flex flex-row items-start justify-start gap-2">
                 <Label
-                  className="text-muted-foreground text-xs uppercase"
+                  className="text-muted-foreground text-xs uppercase mb-2"
                   htmlFor="username"
                 >
                   app user name <span className="text-red-500">*</span>{" "}
@@ -273,12 +410,18 @@ const AppCompanyAddEdit = () => {
                 name="username"
                 id="username"
                 placeholder="Username is required"
+                value={form.username}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.username}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2">
+            <div className="basis-1/3 flex flex-col">
               <div className="flex flex-row items-start justify-start gap-2">
                 <Label
-                  className="text-muted-foreground text-xs uppercase"
+                  className="text-muted-foreground text-xs uppercase mb-2"
                   htmlFor="userEmail"
                 >
                   app user email <span className="text-red-500">*</span>
@@ -292,9 +435,15 @@ const AppCompanyAddEdit = () => {
                 name="userEmail"
                 id="userEmail"
                 placeholder="User email is required"
+                value={form.userEmail}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
               />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.userEmail}
+              </span>
             </div>
-            <div className="basis-1/3 flex flex-col space-y-2"></div>
+            <div className="basis-1/3 flex flex-col"></div>
           </div>
         </div>
         <div className="flex flex-row justify-center items-center my-8 gap-4">
