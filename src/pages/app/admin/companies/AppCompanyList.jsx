@@ -7,16 +7,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
 import { Pencil, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AppCompanyList = () => {
+  document.title = `List of Companies | ${import.meta.env.VITE_APP_TITLE}`;
+
   const [isLoading, setIsLoading] = useState(false);
   const attributes = [];
+  const [companies, setCompanies] = useState([]);
+  const { counter } = useSelector((store) => store.common);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error?.response?.data);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <AppContentWrapper>

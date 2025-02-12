@@ -176,7 +176,7 @@ const Signin = () => {
               </Link>
             </div>
             <AppSubmitBtn
-              customClass={`w-full bg-black text-white p-2 rounded-lg mb-6 border border-gray-300 hover:bg-white hover:text-black`}
+              customClass={`w-full bg-muted-foreground text-white p-2 rounded-lg mb-6 border border-gray-300 hover:bg-muted-foreground/80`}
               text={`Sign in`}
               isLoading={isLoading}
             />
