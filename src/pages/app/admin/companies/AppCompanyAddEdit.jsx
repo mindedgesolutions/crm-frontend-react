@@ -7,11 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import customFetch from "@/utils/customFetch";
 import { getCityState } from "@/utils/functions";
 import showSuccess from "@/utils/showSuccess";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 
 const AppCompanyAddEdit = () => {
   document.title = `Add New Company | ${import.meta.env.VITE_APP_TITLE}`;
+  const { id } = useParams();
 
   const [form, setForm] = useState({
     name: "",
@@ -24,12 +26,13 @@ const AppCompanyAddEdit = () => {
     state: "",
     contactPerson: "",
     mobile: "",
+    whatsapp: "",
     username: "",
     userEmail: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-  const uuid = null;
+  const { currentUser } = useSelector((store) => store.currentUser);
 
   // ---------------------------------------------
 
@@ -84,6 +87,7 @@ const AppCompanyAddEdit = () => {
       state: "",
       contactPerson: "",
       mobile: "",
+      whatsapp: "",
       username: "",
       userEmail: "",
     });
@@ -98,31 +102,31 @@ const AppCompanyAddEdit = () => {
     let errorBag = {};
 
     if (!form.name) {
-      errorBag = { ...errorBag, name: "Company name is required" };
+      errorBag = { ...errorBag, name: "Name is required" };
       errorCount++;
     }
     if (!form.email) {
-      errorBag = { ...errorBag, email: "Company email is required" };
+      errorBag = { ...errorBag, email: "Email is required" };
       errorCount++;
     }
     if (!form.address) {
-      errorBag = { ...errorBag, address: "Company address is required" };
+      errorBag = { ...errorBag, address: "Address is required" };
       errorCount++;
     }
     if (!form.location) {
-      errorBag = { ...errorBag, location: "Company location is required" };
+      errorBag = { ...errorBag, location: "Location is required" };
       errorCount++;
     }
     if (!form.pincode) {
-      errorBag = { ...errorBag, pincode: "Company PIN code is required" };
+      errorBag = { ...errorBag, pincode: "PIN code is required" };
       errorCount++;
     }
     if (!form.city) {
-      errorBag = { ...errorBag, city: "Company city is required" };
+      errorBag = { ...errorBag, city: "City is required" };
       errorCount++;
     }
     if (!form.state) {
-      errorBag = { ...errorBag, state: "Company state is required" };
+      errorBag = { ...errorBag, state: "State is required" };
       errorCount++;
     }
     if (!form.contactPerson) {
@@ -130,7 +134,14 @@ const AppCompanyAddEdit = () => {
       errorCount++;
     }
     if (!form.mobile) {
-      errorBag = { ...errorBag, mobile: "Contact person mobile is required" };
+      errorBag = { ...errorBag, mobile: "Mobile is required" };
+      errorCount++;
+    }
+    if (!form.whatsapp) {
+      errorBag = {
+        ...errorBag,
+        whatsapp: "WhatsApp no. is required",
+      };
       errorCount++;
     }
     if (!form.username) {
@@ -138,7 +149,7 @@ const AppCompanyAddEdit = () => {
       errorCount++;
     }
     if (!form.userEmail) {
-      errorBag = { ...errorBag, userEmail: "App user email is required" };
+      errorBag = { ...errorBag, userEmail: "User email is required" };
       errorCount++;
     }
 
@@ -153,17 +164,60 @@ const AppCompanyAddEdit = () => {
     setIsLoading(true);
 
     try {
-      const response = await customFetch.post(`/admin/companies`, data);
+      const process = id ? customFetch.patch : customFetch.post;
+      const apiUrl = id ? `/admin/companies/${id}` : `/admin/companies`;
+      const response = await process(apiUrl, data);
       setIsLoading(false);
+
       if (response.status === 201) {
         showSuccess("Company added successfully");
+        resetForm();
+      } else if (response.status === 202) {
+        showSuccess("Updated successfully");
       }
-      resetForm();
     } catch (error) {
       setIsLoading(false);
       setErrors(error?.response?.data?.errors);
     }
   };
+
+  // --------------------------------------------
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      if (id) {
+        const response = await customFetch.get(`/admin/companies/${id}`);
+
+        setForm({
+          ...form,
+          name: response.data.data?.name ?? "",
+          email: response.data.data?.email ?? "",
+          website: response.data.data?.website ?? "",
+          address: response.data.data?.address ?? "",
+          location: response.data.data?.location ?? "",
+          pincode: response.data.data?.pincode ?? "",
+          city: response.data.data?.city ?? "",
+          state: response.data.data?.state ?? "",
+          contactPerson: response.data.data?.contact_person ?? "",
+          mobile: response.data.data?.phone ?? "",
+          whatsapp: response.data.data?.whatsapp ?? "",
+          username: response.data.data?.user_master?.name ?? "",
+          userEmail: response.data.data?.user_master?.email ?? "",
+        });
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error?.response?.data);
+    }
+  };
+
+  // --------------------------------------------
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <AppContentWrapper>
@@ -309,7 +363,7 @@ const AppCompanyAddEdit = () => {
                 className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="city"
               >
-                city
+                city (auto-filled)
               </Label>
               <Input
                 type="text"
@@ -328,7 +382,7 @@ const AppCompanyAddEdit = () => {
                 className="text-muted-foreground text-xs uppercase mb-2"
                 htmlFor="state"
               >
-                state
+                state (auto-filled)
               </Label>
               <Input
                 type="text"
@@ -390,7 +444,26 @@ const AppCompanyAddEdit = () => {
               />
               <span className="text-red-500 text-xs h-4">{errors?.mobile}</span>
             </div>
-            <div className="basis-1/3 flex flex-col"></div>
+            <div className="basis-1/3 flex flex-col">
+              <Label
+                className="text-muted-foreground text-xs uppercase mb-2"
+                htmlFor="whatsapp"
+              >
+                whatsapp no. <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                name="whatsapp"
+                id="whatsapp"
+                placeholder="Contact person whatsapp no. is required"
+                value={form.whatsapp}
+                onChange={handleChange}
+                onKeyUp={resetErrors}
+              />
+              <span className="text-red-500 text-xs h-4">
+                {errors?.whatsapp}
+              </span>
+            </div>
           </div>
           <div className="flex flex-row justify-between items-center gap-4">
             <div className="basis-1/3 flex flex-col">
@@ -449,10 +522,10 @@ const AppCompanyAddEdit = () => {
         <div className="flex flex-row justify-center items-center my-8 gap-4">
           <AppSubmitBtn
             isLoading={isLoading}
-            text={uuid ? `save changes` : `add company`}
+            text={id ? `save changes` : `add company`}
             customClass={`w-auto uppercase text-white`}
           />
-          <Link to={``}>
+          <Link to={`/admin/${currentUser.slug}/companies`}>
             <Button type="button" variant="outline" className="uppercase">
               Back to list
             </Button>

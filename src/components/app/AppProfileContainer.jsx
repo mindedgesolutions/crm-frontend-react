@@ -16,7 +16,18 @@ import showSuccess from "@/utils/showSuccess";
 const AppProfileContainer = () => {
   const navigate = useNavigate();
 
-  const logout = async () => {};
+  const logout = async () => {
+    try {
+      await customFetch.post("/auth/logout");
+
+      showSuccess("Logged out successfully");
+      localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
+      navigate("/sign-in");
+    } catch (error) {
+      console.log(error?.response?.data?.errors);
+      return;
+    }
+  };
 
   return (
     <DropdownMenu>

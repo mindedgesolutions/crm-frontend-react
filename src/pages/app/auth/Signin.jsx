@@ -6,6 +6,7 @@ import customFetch from "@/utils/customFetch";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOutline } from "react-icons/io5";
+import showSuccess from "@/utils/showSuccess";
 
 const Signin = () => {
   document.title = `Sign In | ${import.meta.env.VITE_APP_TITLE}`;
@@ -75,6 +76,8 @@ const Signin = () => {
         import.meta.env.VITE_TOKEN_NAME,
         response.data.token
       );
+
+      showSuccess(`Welcome back ${response.data.user.name}`);
 
       if (response.data.user.roles[0].name === "super admin") {
         navigate(`/admin/${response.data.user.slug}/dashboard`);

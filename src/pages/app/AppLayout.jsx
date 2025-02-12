@@ -1,26 +1,45 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "@/assets/images/logo.png";
 import { Layout, Menu } from "antd";
 import { userMenus } from "@/utils/menu";
 import { AppFooter, AppTopnav } from "@/components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import showError from "@/utils/showError";
+import customFetch from "@/utils/customFetch";
+import { setCurrentUser } from "@/features/currentUserSlice";
 
 const { Sider } = Layout;
 
 const AppLayout = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
-  const { pathname } = useLocation();
-  const { counter } = useSelector((store) => store.common);
+  const { currentUser } = useSelector((store) => store.currentUser);
+
+  // --------------------------------------------
+
+  const loggedInUser = async () => {
+    try {
+      if (!currentUser?.id) {
+        const response = await customFetch.get(`/auth/current-user`);
+        dispatch(setCurrentUser(response.data.user));
+      }
+    } catch (error) {
+      console.log(error?.response?.data);
+      showError(`Something went wrong! Please try again later.`);
+      navigate(`/sign-in`);
+    }
+  };
 
   useEffect(() => {
-    console.log(Math.random(Math.floor() * 1000));
-  }, [counter]);
+    loggedInUser();
+  }, []);
 
   return (
     <Layout className="h-screen bg-inherit">
       <Sider
-        className="text-white bg-black"
+        className="text-white bg-black h-screen"
         collapsible
         collapsed={collapsed}
         onCollapse={setCollapsed}
