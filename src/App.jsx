@@ -1,5 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as crm from "@/pages";
+import store from "./store";
+
+import { loader as appLayoutLoader } from "@/pages/app/AppLayout";
 
 const router = createBrowserRouter([
   // Website routes start -----------------------------------------------------------
@@ -27,6 +30,7 @@ const router = createBrowserRouter([
     path: "/admin/:slug",
     element: <crm.AppLayout />,
     errorElement: <crm.AppErrorPage />,
+    loader: appLayoutLoader(store),
     children: [
       { path: "dashboard", element: <crm.AppAdminDashboard /> },
       { path: "companies", element: <crm.AppCompanyList /> },
@@ -34,6 +38,7 @@ const router = createBrowserRouter([
       { path: "companies/:id/edit", element: <crm.AppCompanyAddEdit /> },
       { path: "users", element: <crm.AppUsersList /> },
       { path: "plan-attributes", element: <crm.AppPlanAttributes /> },
+      { path: "plans", element: <crm.AppPlans /> },
     ],
   },
   // Admin routes end -----------------------------------------------------------
@@ -42,6 +47,7 @@ const router = createBrowserRouter([
   {
     path: "/app/:slug",
     element: <crm.AppLayout />,
+    loader: appLayoutLoader(store),
     children: [
       { path: "dashboard", element: <crm.AppCompanyDashboard /> },
       { path: "team", element: <crm.AppTeamList /> },
@@ -53,6 +59,7 @@ const router = createBrowserRouter([
   {
     path: "/:slug",
     element: <crm.AppLayout />,
+    loader: appLayoutLoader(store),
     children: [
       { path: "settings", element: <crm.ProfileSettings /> },
       { path: "change-password", element: <crm.ChangePassword /> },

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSelector } from "react-redux";
 
-export function NavUser({ user }) {
+export function NavUser() {
   const { currentUser } = useSelector((store) => store.currentUser);
   const { isMobile } = useSidebar();
 

@@ -3,7 +3,7 @@ import AppPopover from "@/components/app/AppPopover";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import customFetch from "@/utils/customFetch";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -206,7 +206,7 @@ const ProfileSettings = () => {
                 <Pencil size={18} />
               </div>
               <div className="absolute bottom-4 right-0 font-thin text-destructive p-2 bg-muted-foreground/10 rounded-full cursor-pointer hover:bg-muted-foreground/15">
-                <Trash size={18} />
+                <Trash2 size={18} />
               </div>
             </div>
           </div>

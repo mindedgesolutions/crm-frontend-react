@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { activeBadge, serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
-import { Pencil, ThumbsUp } from "lucide-react";
+import { Eye, Pencil, ThumbsUp, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -71,9 +71,8 @@ const AppCompanyList = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Sl. No.</TableHead>
+              <TableHead className="w-[50px]">#</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Location</TableHead>
               <TableHead>Contact Person</TableHead>
               <TableHead>Contact No.</TableHead>
               <TableHead>WhatsApp</TableHead>
@@ -113,16 +112,13 @@ const AppCompanyList = () => {
                       <AppToolTipped text={company.name} />
                     </TableCell>
                     <TableCell>
-                      <AppToolTipped
-                        text={`${company.location}, ${company.city}, ${company.state}`}
-                      />
-                    </TableCell>
-                    <TableCell>
                       <AppToolTipped text={company.contact_person} />
                     </TableCell>
                     <TableCell>{company.phone}</TableCell>
                     <TableCell>{company.whatsapp}</TableCell>
-                    <TableCell>{company.email}</TableCell>
+                    <TableCell>
+                      <AppToolTipped text={company.email} />
+                    </TableCell>
                     <TableCell>
                       {dayjs(new Date(company.created_at)).format(
                         "DD/MM/YYYY h:mm A"
@@ -132,19 +128,33 @@ const AppCompanyList = () => {
                     <TableCell>
                       <div className="flex flex-col justify-end items-center md:flex-row space-y-1 md:gap-4">
                         {company.is_active ? (
-                          <NavLink
-                            to={`/admin/souvik-nag/companies/${company.enc_id}/edit`}
-                          >
+                          <>
                             <button type="button">
-                              <Pencil
-                                size={18}
-                                className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
+                              <Eye
+                                size={16}
+                                className="text-muted-foreground transition duration-200 group-hover:text-sky-500"
                               />
                             </button>
-                          </NavLink>
+                            <NavLink
+                              to={`/admin/souvik-nag/companies/${company.enc_id}/edit`}
+                            >
+                              <button type="button">
+                                <Pencil
+                                  size={16}
+                                  className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
+                                />
+                              </button>
+                            </NavLink>
+                            <button type="button">
+                              <Trash2
+                                size={16}
+                                className="text-muted-foreground transition duration-200 group-hover:text-red-500"
+                              />
+                            </button>
+                          </>
                         ) : (
                           <button onClick={() => handleActivate(company.id)}>
-                            <ThumbsUp size={18} className="text-green-500" />
+                            <ThumbsUp size={16} className="text-green-500" />
                           </button>
                         )}
                       </div>

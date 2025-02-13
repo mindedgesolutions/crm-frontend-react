@@ -1,6 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
@@ -14,21 +14,6 @@ const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { currentUser } = useSelector((store) => store.currentUser);
   const slug = currentUser?.user_detail?.slug;
-
-  // --------------------------------------------
-
-  const loggedInUser = async () => {
-    try {
-      if (!currentUser?.id) {
-        const response = await customFetch.get(`/auth/current-user`);
-        dispatch(setCurrentUser(response.data.user));
-      }
-    } catch (error) {
-      console.log(error?.response?.data);
-      showError(`Something went wrong! Please try again later.`);
-      navigate(`/sign-in`);
-    }
-  };
 
   // --------------------------------------------
 
@@ -46,8 +31,6 @@ const AppLayout = () => {
   };
 
   useEffect(() => {
-    loggedInUser();
-
     window.addEventListener("unauthenticated", handleUnauthenticated);
     window.addEventListener("unauthorized", handleUnauthorized);
   }, [navigate]);
@@ -64,3 +47,21 @@ const AppLayout = () => {
   );
 };
 export default AppLayout;
+
+// --------------------------------------------
+
+export const loader = (store) => async () => {
+  const { currentUser } = store.getState().currentUser;
+
+  try {
+    if (!currentUser.name) {
+      const response = await customFetch.get(`/auth/current-user`);
+      store.dispatch(setCurrentUser(response.data.user));
+    }
+    return null;
+  } catch (error) {
+    console.log(error?.response?.data);
+    showError(`Something went wrong! Please try again later.`);
+    return redirect(`/sign-in`);
+  }
+};

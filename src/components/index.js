@@ -8,4 +8,5 @@ export { default as AppSkeletonTableRow } from "@/components/app/AppSkeletonTabl
 export { default as AppAddEditPlanAttribute } from "@/components/app/plan/AppAddEditPlanAttribute";
 export { default as AppPopver } from "@/components/app/AppPopover";
 export { default as AppPageLoader } from "@/components/app/AppPageLoader";
+export { default as AppBtnGroup } from "@/components/app/AppBtnGroup";
 // Application related components end -----------------------------------------------------------

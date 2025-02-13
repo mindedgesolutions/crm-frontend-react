@@ -10,7 +10,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-export function TeamSwitcher({ teams }) {
+export function TeamSwitcher() {
   const { isMobile } = useSidebar();
 
   return (
