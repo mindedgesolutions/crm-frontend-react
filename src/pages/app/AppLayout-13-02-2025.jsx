@@ -1,12 +1,15 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
-import customFetch from "@/utils/customFetch";
-import showError from "@/utils/showError";
+import logo from "@/assets/images/logo.png";
+import { Layout, Menu } from "antd";
+import { userMenus } from "@/utils/menu";
 import { AppFooter, AppTopnav } from "@/components";
+import { useDispatch, useSelector } from "react-redux";
+import showError from "@/utils/showError";
+import customFetch from "@/utils/customFetch";
+import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
+
+const { Sider } = Layout;
 
 const AppLayout = () => {
   const navigate = useNavigate();
@@ -53,14 +56,42 @@ const AppLayout = () => {
   }, [navigate]);
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="w-full">
+    <Layout className="h-screen bg-inherit">
+      <Sider
+        className="text-white bg-black h-screen"
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        theme="dark"
+      >
+        <div className="flex justify-center items-center py-8 mb-4">
+          <img
+            src={logo}
+            alt={import.meta.env.VITE_APP_TITLE}
+            className={`h-10 w-10 rounded-full`}
+          />
+          <span
+            className={`text-3xl font-bold tracking-widest text-muted-foreground ms-2 duration-300 ${
+              collapsed && "hidden"
+            }`}
+          >
+            CR<span className="text-primary">M</span>
+          </span>
+        </div>
+        <Menu
+          mode="inline"
+          items={userMenus}
+          defaultSelectedKeys={["dashboard"]}
+          theme="dark"
+          className="bg-black"
+        />
+      </Sider>
+      <div className="w-full">
         <AppTopnav />
         <Outlet />
         <AppFooter />
-      </main>
-    </SidebarProvider>
+      </div>
+    </Layout>
   );
 };
 export default AppLayout;
