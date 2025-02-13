@@ -3,6 +3,7 @@ import customFetch from "./customFetch";
 import { splitErrors } from "./splitErrors";
 import CryptoJS from "crypto-js";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 // ------
 export const adUserBadge = (type) => {

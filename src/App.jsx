@@ -47,6 +47,19 @@ const router = createBrowserRouter([
       { path: "team", element: <crm.AppTeamList /> },
     ],
   },
+  // Company routes end -----------------------------------------------------------
+
+  // Profile routes start -----------------------------------------------------------
+  {
+    path: "/:slug",
+    element: <crm.AppLayout />,
+    children: [
+      { path: "settings", element: <crm.ProfileSettings /> },
+      { path: "change-password", element: <crm.ChangePassword /> },
+      { path: "forbidden", element: <crm.AppForbidden /> },
+    ],
+  },
+  // Profile routes end -----------------------------------------------------------
 ]);
 
 function App() {

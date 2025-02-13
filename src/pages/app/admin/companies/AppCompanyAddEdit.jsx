@@ -153,6 +153,23 @@ const AppCompanyAddEdit = () => {
       errorCount++;
     }
 
+    const regex = /^[0-9]+$/;
+
+    if (form.pincode && regex.test(form.pincode) === false) {
+      errorBag = { ...errorBag, pincode: "Must be a number" };
+      errorCount++;
+    }
+
+    if (form.mobile && regex.test(form.mobile) === false) {
+      errorBag = { ...errorBag, mobile: "Must be a number" };
+      errorCount++;
+    }
+
+    if (form.whatsapp && regex.test(form.whatsapp) === false) {
+      errorBag = { ...errorBag, whatsapp: "Must be a number" };
+      errorCount++;
+    }
+
     if (errorCount > 0) {
       setErrors(errorBag);
       return;

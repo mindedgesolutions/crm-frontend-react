@@ -12,9 +12,12 @@ import avatar from "@/assets/images/000m.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import customFetch from "@/utils/customFetch";
 import showSuccess from "@/utils/showSuccess";
+import { useDispatch } from "react-redux";
+import { unsetCurrentUser } from "@/features/currentUserSlice";
 
 const AppProfileContainer = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logout = async () => {
     try {
@@ -22,6 +25,7 @@ const AppProfileContainer = () => {
 
       showSuccess("Logged out successfully");
       localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
+      dispatch(unsetCurrentUser());
       navigate("/sign-in");
     } catch (error) {
       console.log(error?.response?.data?.errors);
@@ -40,13 +44,13 @@ const AppProfileContainer = () => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link to={`/admin/profile`}>
+          <Link to={`/souvik-nag/settings`}>
             <DropdownMenuItem className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
-          <Link to={`/admin/change-password`}>
+          <Link to={`/souvik-nag/change-password`}>
             <DropdownMenuItem className="cursor-pointer">
               <Lock className="mr-2 h-4 w-4" />
               <span>Change password</span>

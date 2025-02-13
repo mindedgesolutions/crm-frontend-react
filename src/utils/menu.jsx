@@ -5,7 +5,6 @@ import { FiUsers } from "react-icons/fi";
 import { IoTicketOutline } from "react-icons/io5";
 import { HiOutlineCog6Tooth, HiOutlineBuildingLibrary } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
-import { LiaIndustrySolid } from "react-icons/lia";
 
 export const adminMenus = [];
 

@@ -80,9 +80,9 @@ const Signin = () => {
       showSuccess(`Welcome back ${response.data.user.name}`);
 
       if (response.data.user.roles[0].name === "super admin") {
-        navigate(`/admin/${response.data.user.slug}/dashboard`);
+        navigate(`/admin/${response.data.user.user_detail.slug}/dashboard`);
       } else {
-        navigate(`/app/${response.data.user.slug}/dashboard`);
+        navigate(`/app/${response.data.user.user_detail.slug}/dashboard`);
       }
     } catch (error) {
       setIsLoading(false);

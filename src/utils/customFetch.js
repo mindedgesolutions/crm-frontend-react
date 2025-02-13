@@ -1,5 +1,4 @@
 import axios from "axios";
-import showError from "./showError";
 
 const customFetch = axios.create({
   baseURL: "/api",
@@ -27,9 +26,9 @@ customFetch.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
-      showError("Session expired. Please sign in again.");
-      window.location.href = "/sign-in";
+      window.dispatchEvent(new Event("unauthenticated"));
+    } else if (error.response && error.response.status === 403) {
+      window.dispatchEvent(new Event("unauthorized"));
     }
     return Promise.reject(error);
   }

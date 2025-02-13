@@ -39,7 +39,8 @@ const AppCompanyList = () => {
       setMeta(response.data.meta);
       setIsLoading(false);
     } catch (error) {
-      console.error(error?.response?.data);
+      // console.log(error.status);
+      // console.error(error?.response?.data);
       setIsLoading(false);
     }
   };

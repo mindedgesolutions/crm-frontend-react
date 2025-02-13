@@ -13,6 +13,12 @@ export { default as ForgotPassword } from "@/pages/app/auth/ForgotPassword";
 export { default as ResetPassword } from "@/pages/app/auth/ResetPassword";
 // Auth Routes end here ----------------------------------------------
 
+// Common Routes start here --------------------------------------------
+export { default as ProfileSettings } from "@/pages/app/profile/ProfileSettings";
+export { default as ChangePassword } from "@/pages/app/profile/ChangePassword";
+export { default as AppForbidden } from "@/pages/app/errors/AppForbidden";
+// Common Routes end here ----------------------------------------------
+
 // Admin Routes start here --------------------------------------------
 export { default as AppLayout } from "@/pages/app/AppLayout";
 export { default as AppAdminDashboard } from "@/pages/app/admin/AppAdminDashboard";

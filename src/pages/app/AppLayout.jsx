@@ -7,7 +7,7 @@ import { AppFooter, AppTopnav } from "@/components";
 import { useDispatch, useSelector } from "react-redux";
 import showError from "@/utils/showError";
 import customFetch from "@/utils/customFetch";
-import { setCurrentUser } from "@/features/currentUserSlice";
+import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
 
 const { Sider } = Layout;
 
@@ -16,6 +16,7 @@ const AppLayout = () => {
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const { currentUser } = useSelector((store) => store.currentUser);
+  const slug = currentUser?.user_detail?.slug;
 
   // --------------------------------------------
 
@@ -32,9 +33,27 @@ const AppLayout = () => {
     }
   };
 
+  // --------------------------------------------
+
+  const handleUnauthenticated = () => {
+    localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
+    dispatch(unsetCurrentUser());
+    showError("Please sign in to continue.");
+    navigate(`/sign-in`);
+  };
+
+  // --------------------------------------------
+
+  const handleUnauthorized = () => {
+    navigate(`/${slug}/forbidden`);
+  };
+
   useEffect(() => {
     loggedInUser();
-  }, []);
+
+    window.addEventListener("unauthenticated", handleUnauthenticated);
+    window.addEventListener("unauthorized", handleUnauthorized);
+  }, [navigate]);
 
   return (
     <Layout className="h-screen bg-inherit">
