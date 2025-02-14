@@ -1,8 +1,8 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
 import customFetch from "@/utils/customFetch";
 import showError from "@/utils/showError";
@@ -11,7 +11,6 @@ import { AppFooter, AppTopnav } from "@/components";
 const AppLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [collapsed, setCollapsed] = useState(false);
   const { currentUser } = useSelector((store) => store.currentUser);
   const slug = currentUser?.user_detail?.slug;
 

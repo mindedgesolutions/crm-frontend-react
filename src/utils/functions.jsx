@@ -1,9 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import customFetch from "./customFetch";
-import { splitErrors } from "./splitErrors";
 import CryptoJS from "crypto-js";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 
 // ------
 export const adUserBadge = (type) => {
@@ -92,3 +90,28 @@ export const decParam = (value) => {
 
   return data.toString(CryptoJS.enc.Utf8);
 };
+
+// Pagination starts ------
+export const constructUrl = ({ pageNumber, search, pathname }) => {
+  const searchParams = new URLSearchParams(search);
+  searchParams.set("page", pageNumber.toString());
+  return `${pathname}?${searchParams.toString()}`;
+};
+
+export const constructPrevOrNext = ({
+  curretPage,
+  pageCount,
+  search,
+  pathname,
+}) => {
+  let prevPage = curretPage - 1;
+  if (prevPage < 1) prevPage = 1;
+  const prevUrl = constructUrl({ pageNumber: prevPage, search, pathname });
+
+  let nextPage = curretPage + 1;
+  if (nextPage > pageCount) nextPage = pageCount;
+  const nextUrl = constructUrl({ pageNumber: nextPage, search, pathname });
+
+  return { prevUrl, nextUrl };
+};
+// Pagination ends ------

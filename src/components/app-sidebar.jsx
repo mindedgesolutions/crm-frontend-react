@@ -32,7 +32,7 @@ export function AppSidebar({ ...props }) {
         title: "Settings",
         url: "#",
         icon: Settings2,
-        items: [
+        children: [
           {
             title: "Plan Attributes",
             url: `/admin/${currentUser?.user_detail?.slug}/plan-attributes`,

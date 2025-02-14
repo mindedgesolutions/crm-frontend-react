@@ -131,7 +131,7 @@ const AppCompanyList = () => {
                           <>
                             <button type="button">
                               <Eye
-                                size={16}
+                                size={14}
                                 className="text-muted-foreground transition duration-200 group-hover:text-sky-500"
                               />
                             </button>
@@ -140,21 +140,21 @@ const AppCompanyList = () => {
                             >
                               <button type="button">
                                 <Pencil
-                                  size={16}
+                                  size={14}
                                   className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
                                 />
                               </button>
                             </NavLink>
                             <button type="button">
                               <Trash2
-                                size={16}
+                                size={14}
                                 className="text-muted-foreground transition duration-200 group-hover:text-red-500"
                               />
                             </button>
                           </>
                         ) : (
                           <button onClick={() => handleActivate(company.id)}>
-                            <ThumbsUp size={16} className="text-green-500" />
+                            <ThumbsUp size={14} className="text-green-500" />
                           </button>
                         )}
                       </div>

@@ -13,9 +13,25 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export function NavMain({ items }) {
+  const { pathname } = useLocation();
+
+  let open = false;
+  let active = false;
+
+  items.forEach((item) => {
+    if (item.children) {
+      item.children.forEach((subItem) => {
+        if (pathname === subItem.url) {
+          open = true;
+          active = true;
+        }
+      });
+    }
+  });
+
   return (
     <SidebarGroup className="mt-8">
       <SidebarMenu>
@@ -23,16 +39,19 @@ export function NavMain({ items }) {
           <Collapsible
             key={item.title}
             asChild
-            defaultOpen={item.isActive}
+            defaultOpen={open}
             className="group/collapsible"
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <NavLink to={item.url}>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    isActive={pathname === item.url}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-                    {item.items && (
+                    {item.children && (
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     )}
                     {/* Show only when item has sub-items */}
@@ -40,12 +59,15 @@ export function NavMain({ items }) {
                 </NavLink>
               </CollapsibleTrigger>
               {/* Collapsible content when item has sub-items */}
-              {item.items && (
+              {item.children && (
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items?.map((subItem) => (
+                    {item.children?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={pathname === subItem.url}
+                        >
                           <NavLink to={subItem.url}>
                             <span>{subItem.title}</span>
                           </NavLink>

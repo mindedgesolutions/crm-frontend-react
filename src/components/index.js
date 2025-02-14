@@ -9,4 +9,6 @@ export { default as AppAddEditPlanAttribute } from "@/components/app/plan/AppAdd
 export { default as AppPopver } from "@/components/app/AppPopover";
 export { default as AppPageLoader } from "@/components/app/AppPageLoader";
 export { default as AppBtnGroup } from "@/components/app/AppBtnGroup";
+export { default as AppPaginationContainer } from "@/components/app/AppPaginationContainer";
+export { default as AppDeletePlanAttribute } from "@/components/app/deleteComponents/AppDeletePlanAttribute";
 // Application related components end -----------------------------------------------------------

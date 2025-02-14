@@ -35,7 +35,7 @@ const AppProfileContainer = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="ml-2">
+      <DropdownMenuTrigger asChild className="ml-2 hidden md:block">
         <button type="button" variant="ghost" className="focus:outline-none">
           <img src={avatar} alt="user" className="w-8 h-8 rounded-full" />
         </button>

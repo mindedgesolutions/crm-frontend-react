@@ -1,11 +1,14 @@
 import {
   AppAddEditPlanAttribute,
   AppContentWrapper,
+  AppDeletePlanAttribute,
+  AppPageLoader,
+  AppPaginationContainer,
   AppSkeletonTableRow,
 } from "@/components";
 import customFetch from "@/utils/customFetch";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -16,22 +19,65 @@ import {
 } from "@/components/ui/table";
 import { serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
-import { Pencil, ThumbsUp } from "lucide-react";
-import { useSelector } from "react-redux";
-import { splitErrors } from "@/utils/splitErrors";
+import { Pencil } from "lucide-react";
+import showError from "@/utils/showError";
+import { useDispatch, useSelector } from "react-redux";
+import { setPlanAttributes } from "@/features/plansSlice";
 
 const AppPlanAttributes = () => {
   document.title = `Plan Attributes | ${import.meta.env.VITE_APP_TITLE}`;
+
   const [isLoading, setIsLoading] = useState(false);
   const [attributes, setAttributes] = useState([]);
-  const [meta, setMeta] = useState({});
+  const [meta, setMeta] = useState({
+    currentPage: 1,
+    lastPage: "",
+    totalRecords: "",
+  });
   const [editId, setEditId] = useState("");
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
-  const navigate = useNavigate();
+  const { counter } = useSelector((store) => store.common);
+  const dispatch = useDispatch();
+
+  // ------------------------------------
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.get("/admin/plan-attributes", {
+        params: {
+          page: queryString.get("page") || "",
+        },
+      });
+
+      if (response) {
+        setAttributes(response.data.attributes.data);
+        setMeta({
+          currentPage: response.data.attributes.current_page,
+          lastPage: response.data.attributes.last_page,
+          totalRecords: response.data.attributes.total,
+        });
+        dispatch(setPlanAttributes(response.data.attributes.data));
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error?.response?.data?.erros);
+      showError(error?.response?.data?.erros);
+    }
+  };
+
+  // ------------------------------------
+
+  useEffect(() => {
+    fetchData();
+  }, [counter, queryString.get("page")]);
 
   return (
     <AppContentWrapper>
+      {isLoading && <AppPageLoader />}
+
       <div className="flex flex-row justify-between items-center bg-muted my-4 p-2">
         <h3 className="font-bold text-xl tracking-widest text-muted-foreground">
           Plan Attributes
@@ -71,7 +117,7 @@ const AppPlanAttributes = () => {
                   return (
                     <TableRow key={attr.id} className="text-xs uppercase group">
                       <TableCell className="font-medium">
-                        {serialNo(page) + index}.
+                        {serialNo(meta.currentPage) + index}.
                       </TableCell>
                       <TableCell>{attribute}</TableCell>
                       <TableCell>{type}</TableCell>
@@ -82,24 +128,16 @@ const AppPlanAttributes = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-end items-center md:flex-row space-y-1 md:gap-4">
-                          {attr.is_active ? (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => setEditId(attr.id)}
-                              >
-                                <Pencil
-                                  size={18}
-                                  className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
-                                />
-                              </button>
-                              <AdDeletePlanAttribute deleteId={attr.id} />
-                            </>
-                          ) : (
-                            <button onClick={() => handleActivate(attr.id)}>
-                              <ThumbsUp size={18} className="text-green-500" />
-                            </button>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => setEditId(attr.id)}
+                          >
+                            <Pencil
+                              size={14}
+                              className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
+                            />
+                          </button>
+                          <AppDeletePlanAttribute deleteId={attr.id} />
                         </div>
                       </TableCell>
                     </TableRow>
@@ -115,13 +153,13 @@ const AppPlanAttributes = () => {
           setEditId={setEditId}
         />
       </div>
-      {/* {meta.totalPages > 1 && (
-        <PaginationContainer
-          totalPages={meta.totalPages}
+      {meta.lastPage > 1 && (
+        <AppPaginationContainer
+          totalPages={meta.lastPage}
           currentPage={meta.currentPage}
           addClass={`w-2/3`}
         />
-      )} */}
+      )}
     </AppContentWrapper>
   );
 };
