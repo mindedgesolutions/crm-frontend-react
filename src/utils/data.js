@@ -12,3 +12,9 @@ export const tenures = [
   { value: 3, label: "Quarterly" },
   { value: 12, label: "Yearly" },
 ];
+
+export const roles = [
+  { roleId: "admin", roleLabel: "Admin" },
+  { roleId: "manager", roleLabel: "Manager" },
+  { roleId: "employee", roleLabel: "Employee" },
+];

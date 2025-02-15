@@ -79,7 +79,7 @@ const AppPlanAttributes = () => {
       {isLoading && <AppPageLoader />}
 
       <div className="flex flex-row justify-between items-center bg-muted my-4 p-2">
-        <h3 className="font-bold text-xl tracking-widest text-muted-foreground">
+        <h3 className="font-semibold text-xl tracking-widest text-muted-foreground">
           Plan Attributes
         </h3>
       </div>
@@ -88,7 +88,7 @@ const AppPlanAttributes = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Sl. No.</TableHead>
+                <TableHead className="w-[50px]">#</TableHead>
                 <TableHead>Attribute</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Last Updated</TableHead>
@@ -127,14 +127,14 @@ const AppPlanAttributes = () => {
                         )}
                       </TableCell>
                       <TableCell>
-                        <div className="flex flex-col justify-end items-center md:flex-row space-y-1 md:gap-4">
+                        <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                           <button
                             type="button"
                             onClick={() => setEditId(attr.id)}
                           >
                             <Pencil
                               size={14}
-                              className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
+                              className="text-muted-foreground transition duration-200 group-hover:text-warning"
                             />
                           </button>
                           <AppDeletePlanAttribute deleteId={attr.id} />

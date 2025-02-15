@@ -36,7 +36,13 @@ const router = createBrowserRouter([
       { path: "companies", element: <crm.AppCompanyList /> },
       { path: "companies/new", element: <crm.AppCompanyAddEdit /> },
       { path: "companies/:id/edit", element: <crm.AppCompanyAddEdit /> },
-      { path: "users", element: <crm.AppUsersList /> },
+      {
+        path: "users",
+        children: [
+          { path: "super-admin", element: <crm.AppUsersList /> },
+          { path: "client", element: <crm.AppCoUsersList /> },
+        ],
+      },
       { path: "plan-attributes", element: <crm.AppPlanAttributes /> },
       { path: "plans", element: <crm.AppPlans /> },
     ],

@@ -23,7 +23,7 @@ export { default as AppForbidden } from "@/pages/app/errors/AppForbidden";
 export { default as AppLayout } from "@/pages/app/AppLayout";
 export { default as AppAdminDashboard } from "@/pages/app/admin/AppAdminDashboard";
 export { default as AppUsersList } from "@/pages/app/admin/users/AppUsersList";
-export { default as AppUsersAddEdit } from "@/pages/app/admin/users/AppUsersAddEdit";
+export { default as AppCoUsersList } from "@/pages/app/admin/users/AppCoUsersList";
 export { default as AppPlanAttributes } from "@/pages/app/admin/plans/AppPlanAttributes";
 export { default as AppPlans } from "@/pages/app/admin/plans/AppPlans";
 export { default as AppCompanyList } from "@/pages/app/admin/companies/AppCompanyList";

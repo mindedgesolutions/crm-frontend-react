@@ -11,25 +11,26 @@ import {
 } from "@/components/ui/alert-dialog";
 import { updateCounter } from "@/features/commonSlice";
 import customFetch from "@/utils/customFetch";
+import showError from "@/utils/showError";
 import showSuccess from "@/utils/showSuccess";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const AppDeletePlanAttribute = ({ deleteId }) => {
+const AdminUserDelete = ({ deleteId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      await customFetch.delete(`/admin/plan-attributes/${deleteId}`);
+      await customFetch.delete(`/admin/users/${deleteId}`);
       setIsLoading(false);
       dispatch(updateCounter());
-      showSuccess(`Attribute deactivated`);
+      showSuccess(`User deactivated`);
     } catch (error) {
       setIsLoading(false);
-      splitErrors(error?.response?.data?.msg);
+      showError(`Something went wrong!`);
       return null;
     }
   };
@@ -38,7 +39,7 @@ const AppDeletePlanAttribute = ({ deleteId }) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <button type="button">
-          <Trash2 size={14} className="text-red-500" />
+          <Trash2 size={14} className="text-destructive" />
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -63,4 +64,4 @@ const AppDeletePlanAttribute = ({ deleteId }) => {
     </AlertDialog>
   );
 };
-export default AppDeletePlanAttribute;
+export default AdminUserDelete;

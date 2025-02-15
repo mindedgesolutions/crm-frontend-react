@@ -46,6 +46,22 @@ export const tenureBadge = (tenure) => {
 };
 
 // ------
+export const roleBadge = (role) => {
+  switch (role) {
+    case "admin":
+      return <Badge className="text-[10px] bg-success">admin</Badge>;
+    case "manager":
+      return (
+        <Badge className="text-[10px] bg-warning group-hover:bg-warning/80">
+          manager
+        </Badge>
+      );
+    case "employee":
+      return <Badge className="text-[10px] bg-info">employee</Badge>;
+  }
+};
+
+// ------
 export const getCityState = async (code) => {
   const response = await axios.get(
     `https://api.postalpincode.in/pincode/${Number(code)}`
@@ -55,8 +71,8 @@ export const getCityState = async (code) => {
 };
 
 // ------
-export const serialNo = (page) => {
-  const srno = !page || page <= 1 ? 1 : (page - 1) * 10 + 1;
+export const serialNo = (page, limit = 10) => {
+  const srno = !page || page <= 1 ? 1 : (page - 1) * limit + 1;
   return srno;
 };
 

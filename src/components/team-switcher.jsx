@@ -30,7 +30,7 @@ export function TeamSwitcher() {
                   {import.meta.env.VITE_APP_TITLE}
                 </span>
                 <span className="truncate text-xs">
-                  Customer Relationship Manager
+                  {/* Customer Relationship Manager */}A test CRM project
                 </span>
               </div>
             </SidebarMenuButton>

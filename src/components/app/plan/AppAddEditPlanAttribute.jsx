@@ -114,7 +114,7 @@ const AppAddEditPlanAttribute = ({ attributes, editId, setEditId }) => {
       </h3>
       <Separator />
       <form onSubmit={handleSubmit} autoComplete="off" className="mt-4">
-        <div className="w-full items-center space-y-1 mb-4">
+        <div className="w-full items-center space-y-1 mb-2">
           <Label
             htmlFor="attribute"
             className="capitalize text-muted-foreground tracking-widest"
@@ -130,9 +130,11 @@ const AppAddEditPlanAttribute = ({ attributes, editId, setEditId }) => {
             onChange={handleChange}
             onKeyUp={resetErrors}
           />
-          <span className="text-red-500 text-xs h-4">{errors?.attribute}</span>
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.attribute}
+          </span>
         </div>
-        <div className="w-full items-center space-y-1 mb-4">
+        <div className="w-full items-center space-y-1 mb-2">
           <Label
             htmlFor="type"
             className="capitalize text-muted-foreground tracking-widest"
@@ -155,7 +157,9 @@ const AppAddEditPlanAttribute = ({ attributes, editId, setEditId }) => {
               );
             })}
           </select>
-          <span className="text-red-500 text-xs h-4">{errors?.type}</span>
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.type}
+          </span>
         </div>
         <Separator />
         <div className="w-full flex flex-row justify-between items-center mt-4">

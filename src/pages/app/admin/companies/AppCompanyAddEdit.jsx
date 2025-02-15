@@ -270,7 +270,9 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">{errors?.name}</span>
+              <span className="text-red-500 text-xs h-4 tracking-wider">
+                {errors?.name}
+              </span>
             </div>
             <div className="basis-1/3 flex flex-col">
               <Label
@@ -288,7 +290,9 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">{errors?.email}</span>
+              <span className="text-red-500 text-xs h-4 tracking-wider">
+                {errors?.email}
+              </span>
             </div>
             <div className="basis-1/3 flex flex-col">
               <Label
@@ -306,7 +310,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.website}
               </span>
             </div>
@@ -328,7 +332,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.address}
               </span>
             </div>
@@ -348,7 +352,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.location}
               </span>
             </div>
@@ -371,7 +375,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.pincode}
               </span>
             </div>
@@ -392,7 +396,9 @@ const AppCompanyAddEdit = () => {
                 onKeyUp={resetErrors}
                 readOnly={true}
               />
-              <span className="text-red-500 text-xs h-4">{errors?.city}</span>
+              <span className="text-red-500 text-xs h-4 tracking-wider">
+                {errors?.city}
+              </span>
             </div>
             <div className="basis-1/3 flex flex-col">
               <Label
@@ -411,7 +417,9 @@ const AppCompanyAddEdit = () => {
                 onKeyUp={resetErrors}
                 readOnly={true}
               />
-              <span className="text-red-500 text-xs h-4">{errors?.state}</span>
+              <span className="text-red-500 text-xs h-4 tracking-wider">
+                {errors?.state}
+              </span>
             </div>
           </div>
         </div>
@@ -439,7 +447,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.contactPerson}
               </span>
             </div>
@@ -459,7 +467,9 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">{errors?.mobile}</span>
+              <span className="text-red-500 text-xs h-4 tracking-wider">
+                {errors?.mobile}
+              </span>
             </div>
             <div className="basis-1/3 flex flex-col">
               <Label
@@ -477,7 +487,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.whatsapp}
               </span>
             </div>
@@ -504,7 +514,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.username}
               </span>
             </div>
@@ -529,7 +539,7 @@ const AppCompanyAddEdit = () => {
                 onChange={handleChange}
                 onKeyUp={resetErrors}
               />
-              <span className="text-red-500 text-xs h-4">
+              <span className="text-red-500 text-xs h-4 tracking-wider">
                 {errors?.userEmail}
               </span>
             </div>

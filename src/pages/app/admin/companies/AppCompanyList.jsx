@@ -1,6 +1,7 @@
 import {
   AppContentWrapper,
   AppPageLoader,
+  AppPaginationContainer,
   AppSkeletonTableRow,
 } from "@/components";
 import {
@@ -16,10 +17,11 @@ import { activeBadge, serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
 import { Eye, Pencil, ThumbsUp, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import customFetch from "@/utils/customFetch";
 import AppToolTipped from "@/components/app/AppToolTipped";
+import showError from "@/utils/showError";
 
 const AppCompanyList = () => {
   document.title = `List of Companies | ${import.meta.env.VITE_APP_TITLE}`;
@@ -28,20 +30,23 @@ const AppCompanyList = () => {
   const [companies, setCompanies] = useState([]);
   const [meta, setMeta] = useState({});
   const { counter } = useSelector((store) => store.common);
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
 
   // ----------------------------------
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get(`/admin/companies`);
+      const response = await customFetch.get(`/admin/companies`, {
+        params: { page: queryString.get("page") || "" },
+      });
       setCompanies(response.data.data);
       setMeta(response.data.meta);
       setIsLoading(false);
     } catch (error) {
-      // console.log(error.status);
-      // console.error(error?.response?.data);
       setIsLoading(false);
+      showError(error?.response?.data?.errors);
     }
   };
 
@@ -51,14 +56,14 @@ const AppCompanyList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [counter]);
+  }, [counter, queryString.get("page")]);
 
   return (
     <AppContentWrapper>
       {isLoading && <AppPageLoader />}
 
       <div className="flex flex-row justify-between items-center bg-muted my-4 p-2">
-        <h3 className="font-bold text-xl tracking-wider text-muted-foreground">
+        <h3 className="font-semibold text-xl tracking-wider text-muted-foreground">
           List of Companies
         </h3>
         <Link to={`/admin/souvik-nag/companies/new`}>
@@ -126,13 +131,13 @@ const AppCompanyList = () => {
                     </TableCell>
                     <TableCell>{activeBadge(company.is_active)}</TableCell>
                     <TableCell>
-                      <div className="flex flex-col justify-end items-center md:flex-row space-y-1 md:gap-4">
+                      <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                         {company.is_active ? (
                           <>
                             <button type="button">
                               <Eye
                                 size={14}
-                                className="text-muted-foreground transition duration-200 group-hover:text-sky-500"
+                                className="text-muted-foreground transition duration-200 group-hover:text-info"
                               />
                             </button>
                             <NavLink
@@ -141,14 +146,14 @@ const AppCompanyList = () => {
                               <button type="button">
                                 <Pencil
                                   size={14}
-                                  className="text-muted-foreground transition duration-200 group-hover:text-yellow-500"
+                                  className="text-muted-foreground transition duration-200 group-hover:text-warning"
                                 />
                               </button>
                             </NavLink>
                             <button type="button">
                               <Trash2
                                 size={14}
-                                className="text-muted-foreground transition duration-200 group-hover:text-red-500"
+                                className="transition duration-200 text-destructive"
                               />
                             </button>
                           </>
@@ -166,13 +171,12 @@ const AppCompanyList = () => {
           </TableBody>
         </Table>
       </div>
-      {/* {meta.totalPages > 1 && (
-        <PaginationContainer
-          totalPages={meta.totalPages}
-          currentPage={meta.currentPage}
-          addClass={`w-2/3`}
+      {meta.last_page > 1 && (
+        <AppPaginationContainer
+          totalPages={meta.last_page}
+          currentPage={meta.current_page}
         />
-      )} */}
+      )}
     </AppContentWrapper>
   );
 };

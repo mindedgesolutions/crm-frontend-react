@@ -24,9 +24,19 @@ export function AppSidebar({ ...props }) {
       },
       {
         title: "Users",
-        url: `/admin/${currentUser?.user_detail?.slug}/users`,
+        url: `#`,
         icon: Users,
         isActive: false,
+        children: [
+          {
+            title: "Super Admin",
+            url: `/admin/${currentUser?.user_detail?.slug}/users/super-admin`,
+          },
+          {
+            title: "Users (Client)",
+            url: `/admin/${currentUser?.user_detail?.slug}/users/client`,
+          },
+        ],
       },
       {
         title: "Settings",
