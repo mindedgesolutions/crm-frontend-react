@@ -39,7 +39,7 @@ const AdminUserDelete = ({ deleteId }) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <button type="button">
-          <Trash2 size={14} className="text-destructive" />
+          <Trash2 size={14} className="text-red-500" />
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>

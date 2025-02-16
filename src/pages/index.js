@@ -28,6 +28,7 @@ export { default as AppPlanAttributes } from "@/pages/app/admin/plans/AppPlanAtt
 export { default as AppPlans } from "@/pages/app/admin/plans/AppPlans";
 export { default as AppCompanyList } from "@/pages/app/admin/companies/AppCompanyList";
 export { default as AppCompanyAddEdit } from "@/pages/app/admin/companies/AppCompanyAddEdit";
+export { default as AppPlansNew } from "@/pages/app/admin/plans/AppPlansNew";
 // Admin Routes end here ----------------------------------------------
 
 // Company Routes start here --------------------------------------------

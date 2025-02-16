@@ -9,7 +9,7 @@ const AppPopover = ({ text }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <CircleHelp size={14} className="text-destructive cursor-pointer" />
+        <CircleHelp size={14} className="text-red-500 cursor-pointer" />
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="grid gap-4">

@@ -14,4 +14,5 @@ export { default as AppDeletePlanAttribute } from "@/components/app/deleteCompon
 export { default as AdminUserAddEdit } from "@/components/app/users/AdminUserAddEdit";
 export { default as AdminUserDelete } from "@/components/app/deleteComponents/AdminUserDelete";
 export { default as AppCoUsersListFilter } from "@/components/app/filters/AppCoUsersListFilter";
+export { default as AppPopoverAttr } from "@/components/app/AppPopoverAttr";
 // Application related components end -----------------------------------------------------------

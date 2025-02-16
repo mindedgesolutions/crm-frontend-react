@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { roles } from "@/utils/data";
+import showError from "@/utils/showError";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -34,6 +35,11 @@ const AppCoUsersListFilter = ({ companies }) => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
 
+    if (data.search && data.search.length < 3) {
+      showError("Search query must be at least 3 characters long");
+      return;
+    }
+
     data.role && searchParams.set("role", data.role);
     data.company && searchParams.set("company", data.company);
     data.search && searchParams.set("search", data.search);
@@ -54,13 +60,13 @@ const AppCoUsersListFilter = ({ companies }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-row justify-end items-center gap-4 bg-info/15 p-2">
+      <div className="flex flex-col md:flex-row justify-end items-center gap-4 bg-info/15 p-2">
         <select
           name="role"
           id="role"
           value={form.role}
           onChange={handleChange}
-          className="flex h-8 w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
+          className="flex h-8 w-full md:w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
         >
           <option value="">- Filter by role -</option>
           {roles.map((role) => {
@@ -76,7 +82,7 @@ const AppCoUsersListFilter = ({ companies }) => {
           id="company"
           value={form.company}
           onChange={handleChange}
-          className="flex h-8 w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
+          className="flex h-8 w-full md:w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
         >
           <option value="">- Filter by company -</option>
           {companies.map((co) => {
@@ -89,25 +95,27 @@ const AppCoUsersListFilter = ({ companies }) => {
         </select>
         <Input
           type="text"
-          className="w-48 h-8 px-2 py-1 focus:outline-none"
+          className="w-full md:w-48 h-8 px-2 py-1 focus:outline-none"
           id="search"
           name="search"
-          placeholder="Search ..."
+          placeholder="Min 3 characters"
           value={form.search}
           onChange={handleChange}
         />
-        <Button size="xs" type="submit">
-          Search
-        </Button>
-        <Button
-          size="xs"
-          variant="ghost"
-          type="button"
-          className="bg-muted"
-          onClick={resetFilters}
-        >
-          Reset
-        </Button>
+        <div className="flex flex-row gap-2">
+          <Button size="xs" type="submit">
+            Search
+          </Button>
+          <Button
+            size="xs"
+            variant="ghost"
+            type="button"
+            className="bg-muted"
+            onClick={resetFilters}
+          >
+            Reset
+          </Button>
+        </div>
       </div>
     </form>
   );

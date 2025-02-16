@@ -105,8 +105,8 @@ const AppCoUsersList = () => {
       {isLoading && <AppPageLoader />}
 
       <div className="flex flex-row justify-between items-center bg-muted my-4 mb-2 p-3">
-        <h3 className="font-semibold text-xl tracking-widest text-muted-foreground">
-          List of Users (Super Admin)
+        <h3 className="font-semibold text-xl tracking-wider text-muted-foreground">
+          List of Users
         </h3>
       </div>
       <AppCoUsersListFilter companies={companies} />

@@ -3,6 +3,7 @@ import * as crm from "@/pages";
 import store from "./store";
 
 import { loader as appLayoutLoader } from "@/pages/app/AppLayout";
+import { loader as newPlanLoader } from "@/pages/app/admin/plans/AppPlansNew";
 
 const router = createBrowserRouter([
   // Website routes start -----------------------------------------------------------
@@ -33,9 +34,14 @@ const router = createBrowserRouter([
     loader: appLayoutLoader(store),
     children: [
       { path: "dashboard", element: <crm.AppAdminDashboard /> },
-      { path: "companies", element: <crm.AppCompanyList /> },
-      { path: "companies/new", element: <crm.AppCompanyAddEdit /> },
-      { path: "companies/:id/edit", element: <crm.AppCompanyAddEdit /> },
+      {
+        path: "companies",
+        children: [
+          { index: true, element: <crm.AppCompanyList /> },
+          { path: "new", element: <crm.AppCompanyAddEdit /> },
+          { path: ":id/edit", element: <crm.AppCompanyAddEdit /> },
+        ],
+      },
       {
         path: "users",
         children: [
@@ -44,7 +50,18 @@ const router = createBrowserRouter([
         ],
       },
       { path: "plan-attributes", element: <crm.AppPlanAttributes /> },
-      { path: "plans", element: <crm.AppPlans /> },
+      {
+        path: "plans",
+        children: [
+          { index: true, element: <crm.AppPlans /> },
+          { path: "new", element: <crm.AppPlansNew />, loader: newPlanLoader },
+          {
+            path: ":id/edit",
+            element: <crm.AppPlansNew />,
+            loader: newPlanLoader,
+          },
+        ],
+      },
     ],
   },
   // Admin routes end -----------------------------------------------------------

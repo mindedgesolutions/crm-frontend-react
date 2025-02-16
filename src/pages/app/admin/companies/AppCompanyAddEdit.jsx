@@ -12,9 +12,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 const AppCompanyAddEdit = () => {
-  document.title = `Add New Company | ${import.meta.env.VITE_APP_TITLE}`;
   const { id } = useParams();
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -236,13 +234,19 @@ const AppCompanyAddEdit = () => {
     fetchData();
   }, []);
 
+  // --------------------------------------------
+
+  document.title = `${id ? `Details of ${form.name}` : `Add New Company`} | ${
+    import.meta.env.VITE_APP_TITLE
+  }`;
+
   return (
     <AppContentWrapper>
       {isLoading && <AppPageLoader />}
 
       <div className="flex flex-row justify-between items-center bg-muted my-4 p-2">
-        <h3 className="font-bold text-xl tracking-wider text-muted-foreground">
-          Add New Company
+        <h3 className="font-semibold text-xl tracking-wider text-muted-foreground">
+          {id ? `Details of ${form.name}` : `Add New Company`}
         </h3>
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">

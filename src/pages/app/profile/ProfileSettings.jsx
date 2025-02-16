@@ -205,7 +205,7 @@ const ProfileSettings = () => {
               <div className="absolute top-4 right-0 font-thin text-primary p-2 bg-muted-foreground/10 rounded-full cursor-pointer hover:bg-muted-foreground/15">
                 <Pencil size={18} />
               </div>
-              <div className="absolute bottom-4 right-0 font-thin text-destructive p-2 bg-muted-foreground/10 rounded-full cursor-pointer hover:bg-muted-foreground/15">
+              <div className="absolute bottom-4 right-0 font-thin text-red-500 p-2 bg-muted-foreground/10 rounded-full cursor-pointer hover:bg-muted-foreground/15">
                 <Trash2 size={18} />
               </div>
             </div>

@@ -30,6 +30,7 @@ const AppCompanyList = () => {
   const [companies, setCompanies] = useState([]);
   const [meta, setMeta] = useState({});
   const { counter } = useSelector((store) => store.common);
+  const { currentUser } = useSelector((store) => store.currentUser);
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
 
@@ -66,7 +67,7 @@ const AppCompanyList = () => {
         <h3 className="font-semibold text-xl tracking-wider text-muted-foreground">
           List of Companies
         </h3>
-        <Link to={`/admin/souvik-nag/companies/new`}>
+        <Link to={`/admin/${currentUser.user_detail.slug}/companies/new`}>
           <Button size={"xs"} className="capitalize tracking-wider">
             add new
           </Button>
@@ -83,7 +84,7 @@ const AppCompanyList = () => {
               <TableHead>WhatsApp</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Created At</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead></TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -141,7 +142,7 @@ const AppCompanyList = () => {
                               />
                             </button>
                             <NavLink
-                              to={`/admin/souvik-nag/companies/${company.enc_id}/edit`}
+                              to={`/admin/${currentUser.user_detail.slug}/companies/${company.enc_id}/edit`}
                             >
                               <button type="button">
                                 <Pencil
@@ -153,13 +154,13 @@ const AppCompanyList = () => {
                             <button type="button">
                               <Trash2
                                 size={14}
-                                className="transition duration-200 text-destructive"
+                                className="transition duration-200 text-red-500"
                               />
                             </button>
                           </>
                         ) : (
                           <button onClick={() => handleActivate(company.id)}>
-                            <ThumbsUp size={14} className="text-green-500" />
+                            <ThumbsUp size={14} className="text-primary" />
                           </button>
                         )}
                       </div>

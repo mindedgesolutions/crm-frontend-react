@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   planAttributes: [],
   plans: [],
+  planAttributesAll: [],
 };
 
 const plansSlice = createSlice({
@@ -15,8 +16,12 @@ const plansSlice = createSlice({
     setPlans: (state, action) => {
       state.plans = action.payload;
     },
+    setPlanAttributesAll: (state, action) => {
+      state.planAttributesAll = action.payload;
+    },
   },
 });
 
-export const { setPlanAttributes, setPlans } = plansSlice.actions;
+export const { setPlanAttributes, setPlans, setPlanAttributesAll } =
+  plansSlice.actions;
 export default plansSlice.reducer;
