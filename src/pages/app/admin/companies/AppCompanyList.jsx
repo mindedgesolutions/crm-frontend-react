@@ -1,4 +1,5 @@
 import {
+  AppCompanyView,
   AppContentWrapper,
   AppPageLoader,
   AppPaginationContainer,
@@ -135,12 +136,7 @@ const AppCompanyList = () => {
                       <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                         {company.is_active ? (
                           <>
-                            <button type="button">
-                              <Eye
-                                size={14}
-                                className="text-muted-foreground transition duration-200 group-hover:text-info"
-                              />
-                            </button>
+                            <AppCompanyView company={company} />
                             <NavLink
                               to={`/admin/${currentUser.user_detail.slug}/companies/${company.enc_id}/edit`}
                             >
@@ -172,6 +168,7 @@ const AppCompanyList = () => {
           </TableBody>
         </Table>
       </div>
+      <AppCompanyView />
       {meta.last_page > 1 && (
         <AppPaginationContainer
           totalPages={meta.last_page}

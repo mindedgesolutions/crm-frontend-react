@@ -15,4 +15,5 @@ export { default as AdminUserAddEdit } from "@/components/app/users/AdminUserAdd
 export { default as AdminUserDelete } from "@/components/app/deleteComponents/AdminUserDelete";
 export { default as AppCoUsersListFilter } from "@/components/app/filters/AppCoUsersListFilter";
 export { default as AppPopoverAttr } from "@/components/app/AppPopoverAttr";
+export { default as AppCompanyView } from "@/components/app/modals/AppCompanyView";
 // Application related components end -----------------------------------------------------------
