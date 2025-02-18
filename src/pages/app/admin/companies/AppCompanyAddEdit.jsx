@@ -556,7 +556,7 @@ const AppCompanyAddEdit = () => {
             text={id ? `save changes` : `add company`}
             customClass={`w-auto uppercase text-white`}
           />
-          <Link to={`/admin/${currentUser.slug}/companies`}>
+          <Link to={`/admin/${currentUser.user_detail.slug}/companies`}>
             <Button type="button" variant="outline" className="uppercase">
               Back to list
             </Button>

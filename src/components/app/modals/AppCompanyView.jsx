@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import customFetch from "@/utils/customFetch";
 import { useDispatch, useSelector } from "react-redux";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Mail, Pencil, Phone, Trash2, User } from "lucide-react";
+import { ImWhatsapp } from "react-icons/im";
 
 const AppCompanyView = ({ company }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,46 +32,69 @@ const AppCompanyView = ({ company }) => {
       </DialogTrigger>
       <DialogContent className="min-w-auto md:min-w-[800px]">
         <DialogHeader>
-          <DialogTitle className="text-muted-foreground tracking-wider">
-            Company details
+          <DialogTitle className="text-muted-foreground text-2xl tracking-wider">
+            {company?.name}
+            <p className="text-sm text-muted-foreground/80 mt-2">
+              <a href={company?.website} target="_blank">
+                {company?.website}
+              </a>
+            </p>
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex flex-col justify-start items-start space-y-2">
-            <Label htmlFor="name" className="text-right text-muted-foreground">
-              Group name <span className="text-red-500">*</span>
-            </Label>
-            <Input id="name" name="name" className="col-span-3" />
-          </div>
-          <div className="flex flex-col justify-start items-start space-y-2">
-            <Label htmlFor="desc" className="text-right text-muted-foreground">
-              Description
-            </Label>
-            <Input id="desc" name="desc" className="col-span-3" />
-          </div>
-          <div className="flex flex-col justify-start items-start space-y-2">
-            <Label
-              htmlFor="groupImg"
-              className="text-right text-muted-foreground"
-            >
-              Group image
-            </Label>
-            <input
-              type="file"
-              name="groupImg"
-              id="groupImg"
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none"
-            />
-          </div>
-          <div className="flex flex-col justify-start items-start space-y-2">
-            <div className="w-32 h-32 p-1 border border-dashed relative">
-              <button
-                type="button"
-                className="absolute right-1 text-red-500 hover:text-red-400"
-              >
-                <Trash2 />
-              </button>
+        <div className="grid gap-4">
+          <div className="flex flex-row gap-2">
+            <div className="p-2 bg-muted-foreground/5 w-full rounded-sm space-y-1">
+              {company?.contact_person && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm inline-flex items-center gap-2">
+                    <User size={14} />
+                    <span>{company?.contact_person}</span>
+                  </Label>
+                </div>
+              )}
+              {company?.email && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm inline-flex items-center gap-2">
+                    <Mail size={14} />
+                    {company?.email}
+                  </Label>
+                </div>
+              )}
+              {company?.phone && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm inline-flex items-center gap-2">
+                    <Phone size={14} />
+                    {company?.phone}
+                    <span>|</span>
+                    <ImWhatsapp size={14} />
+                    {company?.whatsapp}
+                  </Label>
+                </div>
+              )}
+            </div>
+            <div className="p-2 bg-muted-foreground/5 w-full rounded-sm space-y-1">
+              {company?.address && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm">
+                    {company?.address}
+                  </Label>
+                </div>
+              )}
+              {company?.location && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm">
+                    {company?.location}
+                  </Label>
+                </div>
+              )}
+              {company?.pincode && (
+                <div>
+                  <Label className="text-muted-foreground font-normal text-sm">
+                    {`${company?.city}, ${company?.state} ${company?.pincode}`}
+                  </Label>
+                </div>
+              )}
             </div>
           </div>
         </div>

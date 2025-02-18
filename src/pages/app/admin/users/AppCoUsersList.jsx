@@ -177,18 +177,7 @@ const AppCoUsersList = () => {
                     <TableCell>
                       <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                         {user.is_active ? (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => setEditId(user.id)}
-                            >
-                              <Pencil
-                                size={14}
-                                className="text-muted-foreground transition duration-200 group-hover:text-warning"
-                              />
-                            </button>
-                            <AdminUserDelete deleteId={user.id} />
-                          </>
+                          <AdminUserDelete deleteId={user.id} />
                         ) : (
                           <button onClick={() => handleActivate(user.id)}>
                             <ThumbsUp size={14} className="text-primary" />

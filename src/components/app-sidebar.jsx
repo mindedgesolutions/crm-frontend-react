@@ -1,4 +1,4 @@
-import { Building2, Settings2, Users } from "lucide-react";
+import { Building2, Gauge, Settings2, Users } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -13,9 +13,16 @@ import { useSelector } from "react-redux";
 
 export function AppSidebar({ ...props }) {
   const { currentUser } = useSelector((store) => store.currentUser);
+  const slug = currentUser?.user_detail?.slug;
 
   const data = {
     navMain: [
+      {
+        title: "Dashboard",
+        url: `/admin/${currentUser?.user_detail?.slug}/dashboard`,
+        icon: Gauge,
+        isActive: false,
+      },
       {
         title: "Companies",
         url: `/admin/${currentUser?.user_detail?.slug}/companies`,
@@ -59,7 +66,7 @@ export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher />
+        <TeamSwitcher slug={slug} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

@@ -9,8 +9,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { NavLink } from "react-router-dom";
 
-export function TeamSwitcher() {
+export function TeamSwitcher({ slug }) {
   const { isMobile } = useSidebar();
 
   return (
@@ -18,22 +19,25 @@ export function TeamSwitcher() {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
-                <img src={logo} alt="logo" className="h-8" />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-bold text-2xl">
-                  {import.meta.env.VITE_APP_TITLE}
-                </span>
-                <span className="truncate text-xs">
-                  {/* Customer Relationship Manager */}A test CRM project
-                </span>
-              </div>
-            </SidebarMenuButton>
+            <NavLink to={`/admin/${slug}/users/super-admin`}>
+              <SidebarMenuButton
+                size="xl"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
+                  <img src={logo} alt="logo" className="h-8" />
+                </div>
+
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-bold text-2xl">
+                    {import.meta.env.VITE_APP_TITLE}
+                  </span>
+                  <span className="truncate text-xs">
+                    {/* Customer Relationship Manager */}A test CRM project
+                  </span>
+                </div>
+              </SidebarMenuButton>
+            </NavLink>
           </DropdownMenuTrigger>
         </DropdownMenu>
       </SidebarMenuItem>
