@@ -45,13 +45,13 @@ const AppProfileContainer = () => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link to={`/${currentUser.user_detail.slug}/settings`}>
+          <Link to={`/${currentUser?.user_detail?.slug}/settings`}>
             <DropdownMenuItem className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
-          <Link to={`/${currentUser.user_detail.slug}/change-password`}>
+          <Link to={`/${currentUser?.user_detail?.slug}/change-password`}>
             <DropdownMenuItem className="cursor-pointer">
               <Lock className="mr-2 h-4 w-4" />
               <span>Change password</span>

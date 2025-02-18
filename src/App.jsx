@@ -76,7 +76,19 @@ const router = createBrowserRouter([
     path: "/app/admin/:slug",
     element: <crm.AppLayout />,
     loader: appLayoutLoader(store),
-    children: [{ path: "dashboard", element: <crm.CoAdminDashboard /> }],
+    children: [
+      { path: "dashboard", element: <crm.CoAdminDashboard /> },
+      {
+        path: "settings",
+        children: [
+          { path: "lead-status", element: <crm.CoListLeadStatus /> },
+          { path: "networks", element: <crm.CoListNetworks /> },
+          { path: "users", element: <crm.CoListUsers /> },
+          { path: "groups", element: <crm.CoListGroups /> },
+        ],
+      },
+      { path: "leads", element: <crm.CoLeadsAdmin /> },
+    ],
   },
   // Company admin routes end -----------------------------------------------------------
 

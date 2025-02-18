@@ -35,6 +35,11 @@ export { default as AppPlansNew } from "@/pages/app/admin/plans/AppPlansNew";
 export { default as CoAdminDashboard } from "@/pages/app/company/admin/CoAdminDashboard";
 export { default as CoManagerDashboard } from "@/pages/app/company/manager/CoManagerDashboard";
 export { default as CoEmployeeDashboard } from "@/pages/app/company/employee/CoEmployeeDashboard";
+export { default as CoListGroups } from "@/pages/app/company/admin/settings/CoListGroups";
+export { default as CoListLeadStatus } from "@/pages/app/company/admin/settings/CoListLeadStatus";
+export { default as CoListNetworks } from "@/pages/app/company/admin/settings/CoListNetworks";
+export { default as CoListUsers } from "@/pages/app/company/admin/settings/CoListUsers";
+export { default as CoLeadsAdmin } from "@/pages/app/company/admin/CoLeadsAdmin";
 // Company Routes end here ----------------------------------------------
 
 export { default as AppErrorPage } from "@/pages/app/AppErrorPage";
