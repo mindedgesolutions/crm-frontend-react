@@ -14,34 +14,24 @@ import { useSelector } from "react-redux";
 export function AppSidebar({ ...props }) {
   const { currentUser } = useSelector((store) => store.currentUser);
   const slug = currentUser?.user_detail?.slug;
+  const role = currentUser?.roles?.[0]?.name;
 
   const data = {
-    navMain: [
-      {
-        title: "Dashboard",
-        url: `/admin/${currentUser?.user_detail?.slug}/dashboard`,
-        icon: Gauge,
-        isActive: false,
-      },
-      {
-        title: "Companies",
-        url: `/admin/${currentUser?.user_detail?.slug}/companies`,
-        icon: Building2,
-        isActive: false,
-      },
+    navSuperAdmin: [
+      { title: "Dashboard", url: `/admin/${slug}/dashboard`, icon: Gauge },
+      { title: "Companies", url: `/admin/${slug}/companies`, icon: Building2 },
       {
         title: "Users",
         url: `#`,
         icon: Users,
-        isActive: false,
         children: [
           {
             title: "Super Admin",
-            url: `/admin/${currentUser?.user_detail?.slug}/users/super-admin`,
+            url: `/admin/${slug}/users/super-admin`,
           },
           {
             title: "Users (Client)",
-            url: `/admin/${currentUser?.user_detail?.slug}/users/client`,
+            url: `/admin/${slug}/users/client`,
           },
         ],
       },
@@ -52,15 +42,18 @@ export function AppSidebar({ ...props }) {
         children: [
           {
             title: "Plan Attributes",
-            url: `/admin/${currentUser?.user_detail?.slug}/plan-attributes`,
+            url: `/admin/${slug}/plan-attributes`,
           },
           {
             title: "Plans",
-            url: `/admin/${currentUser?.user_detail?.slug}/plans`,
+            url: `/admin/${slug}/plans`,
           },
         ],
       },
     ],
+    navCoAdmin: [],
+    navManager: [],
+    navCoEmp: [],
   };
 
   return (
@@ -69,7 +62,7 @@ export function AppSidebar({ ...props }) {
         <TeamSwitcher slug={slug} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navSuperAdmin} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

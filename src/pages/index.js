@@ -32,9 +32,9 @@ export { default as AppPlansNew } from "@/pages/app/admin/plans/AppPlansNew";
 // Admin Routes end here ----------------------------------------------
 
 // Company Routes start here --------------------------------------------
-export { default as AppCompanyDashboard } from "@/pages/app/company/AppCompanyDashboard";
-export { default as AppTeamList } from "@/pages/app/company/team/AppTeamList";
-export { default as AppTeamAddEdit } from "@/pages/app/company/team/AppTeamAddEdit";
+export { default as CoAdminDashboard } from "@/pages/app/company/admin/CoAdminDashboard";
+export { default as CoManagerDashboard } from "@/pages/app/company/manager/CoManagerDashboard";
+export { default as CoEmployeeDashboard } from "@/pages/app/company/employee/CoEmployeeDashboard";
 // Company Routes end here ----------------------------------------------
 
 export { default as AppErrorPage } from "@/pages/app/AppErrorPage";

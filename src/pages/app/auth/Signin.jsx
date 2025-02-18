@@ -78,11 +78,21 @@ const Signin = () => {
       );
 
       showSuccess(`Welcome back ${response.data.user.name}`);
+      const slug = response.data.user.user_detail.slug;
 
-      if (response.data.user.roles[0].name === "super admin") {
-        navigate(`/admin/${response.data.user.user_detail.slug}/dashboard`);
-      } else {
-        navigate(`/app/${response.data.user.user_detail.slug}/dashboard`);
+      switch (response.data.user.roles[0].name) {
+        case "super admin":
+          navigate(`/admin/${slug}/dashboard`);
+          break;
+        case "admin":
+          navigate(`/app/admin/${slug}/dashboard`);
+          break;
+        case "manager":
+          navigate(`/app/manager/${slug}/dashboard`);
+          break;
+        case "employee":
+          navigate(`/app/emp/${slug}/dashboard`);
+          break;
       }
     } catch (error) {
       setIsLoading(false);

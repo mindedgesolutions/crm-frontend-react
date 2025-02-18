@@ -4,6 +4,7 @@ import store from "./store";
 
 import { loader as appLayoutLoader } from "@/pages/app/AppLayout";
 import { loader as newPlanLoader } from "@/pages/app/admin/plans/AppPlansNew";
+import { loader as adminDashboardLoader } from "@/pages/app/admin/AppAdminDashboard";
 
 const router = createBrowserRouter([
   // Website routes start -----------------------------------------------------------
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
     errorElement: <crm.AppErrorPage />,
     loader: appLayoutLoader(store),
     children: [
-      { path: "dashboard", element: <crm.AppAdminDashboard /> },
+      {
+        path: "dashboard",
+        element: <crm.AppAdminDashboard />,
+        loader: adminDashboardLoader(store),
+      },
       {
         path: "companies",
         children: [
@@ -66,17 +71,32 @@ const router = createBrowserRouter([
   },
   // Admin routes end -----------------------------------------------------------
 
-  // Company routes start -----------------------------------------------------------
+  // Company admin routes start -----------------------------------------------------------
   {
-    path: "/app/:slug",
+    path: "/app/admin/:slug",
     element: <crm.AppLayout />,
     loader: appLayoutLoader(store),
-    children: [
-      { path: "dashboard", element: <crm.AppCompanyDashboard /> },
-      { path: "team", element: <crm.AppTeamList /> },
-    ],
+    children: [{ path: "dashboard", element: <crm.CoAdminDashboard /> }],
   },
-  // Company routes end -----------------------------------------------------------
+  // Company admin routes end -----------------------------------------------------------
+
+  // Company manager routes start -----------------------------------------------------------
+  {
+    path: "/app/manager/:slug",
+    element: <crm.AppLayout />,
+    loader: appLayoutLoader(store),
+    children: [{ path: "dashboard", element: <crm.CoManagerDashboard /> }],
+  },
+  // Company manager routes end -----------------------------------------------------------
+
+  // Company employee routes start -----------------------------------------------------------
+  {
+    path: "/app/emp/:slug",
+    element: <crm.AppLayout />,
+    loader: appLayoutLoader(store),
+    children: [{ path: "dashboard", element: <crm.CoEmployeeDashboard /> }],
+  },
+  // Company employee routes end -----------------------------------------------------------
 
   // Profile routes start -----------------------------------------------------------
   {
