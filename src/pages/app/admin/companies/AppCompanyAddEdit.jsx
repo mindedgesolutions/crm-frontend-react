@@ -225,6 +225,7 @@ const AppCompanyAddEdit = () => {
     } catch (error) {
       setIsLoading(false);
       console.log(error?.response?.data);
+      return;
     }
   };
 

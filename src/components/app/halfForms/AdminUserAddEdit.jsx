@@ -86,6 +86,7 @@ const AdminUserAddEdit = ({ editId, users, setEditId }) => {
       setIsLoading(false);
       console.log(error?.response?.data?.errors);
       setErrors(error?.response?.data?.errors);
+      return;
     }
   };
 

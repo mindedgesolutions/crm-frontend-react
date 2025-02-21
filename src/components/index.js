@@ -17,4 +17,5 @@ export { default as AppCoUsersListFilter } from "@/components/app/filters/AppCoU
 export { default as AppPopoverAttr } from "@/components/app/AppPopoverAttr";
 export { default as AppCompanyView } from "@/components/app/modals/AppCompanyView";
 export { default as CoAddEditLeadStatus } from "@/components/app/halfForms/CoAddEditLeadStatus";
+export { default as CoDeleteLeadStatus } from "@/components/app/deleteComponents/CoDeleteLeadStatus";
 // Application related components end -----------------------------------------------------------

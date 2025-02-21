@@ -1,9 +1,12 @@
 import {
   AppContentWrapper,
+  AppPageLoader,
   AppPaginationContainer,
+  AppSkeletonTableRow,
   CoAddEditLeadStatus,
+  CoDeleteLeadStatus,
 } from "@/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,15 +15,73 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useDispatch, useSelector } from "react-redux";
+import customFetch from "@/utils/customFetch";
+import { serialNo } from "@/utils/functions";
+import dayjs from "dayjs";
+import { Pencil, ThumbsUp } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { updateCounter } from "@/features/commonSlice";
+import showSuccess from "@/utils/showSuccess";
+import showError from "@/utils/showError";
 
 const CoListLeadStatus = () => {
+  document.title = `Lead Status | ${import.meta.env.VITE_APP_TITLE}`;
+
   const [isLoading, setIsLoading] = useState(false);
   const [editId, setEditId] = useState(null);
-  const leadStatus = [];
-  const meta = {
-    currentPage: 1,
-    lastPage: 1,
+  const { currentUser } = useSelector((store) => store.currentUser);
+  const company = currentUser?.user_detail?.company_id;
+  const [leadStatus, setLeadStatus] = useState([]);
+  const [meta, setMeta] = useState({});
+  const { counter } = useSelector((store) => store.common);
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
+  const dispatch = useDispatch();
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.get(
+        `/masters/lead-status/${company}`,
+        { params: { page: queryString.get("page") } }
+      );
+
+      if (response.status === 200) {
+        setLeadStatus(response.data.data);
+        setMeta({
+          currentPage: response.data.current_page,
+          lastPage: response.data.last_page,
+        });
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
+
+  const activateStatus = async (id) => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.put(
+        `/lead-status-master-activate/${id}`
+      );
+      if (response.status === 200) {
+        dispatch(updateCounter());
+        showSuccess(`Lead status activated`);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      showError(error?.response?.data?.message);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [counter, queryString.get("page")]);
 
   return (
     <AppContentWrapper>
@@ -38,7 +99,6 @@ const CoListLeadStatus = () => {
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
                 <TableHead>Attribute</TableHead>
-                <TableHead>Type</TableHead>
                 <TableHead>Last Updated</TableHead>
                 <TableHead></TableHead>
               </TableRow>
@@ -46,45 +106,60 @@ const CoListLeadStatus = () => {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5}>
+                  <TableCell colSpan={4}>
                     <AppSkeletonTableRow />
                   </TableCell>
                 </TableRow>
               ) : leadStatus.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                    colSpan={4}
                     className="text-xs uppercase text-center"
                   >
                     NO DATA FOUND
                   </TableCell>
                 </TableRow>
               ) : (
-                leadStatus?.map((attr, index) => {
+                leadStatus?.map((status, index) => {
                   return (
-                    <TableRow key={attr.id} className="text-xs uppercase group">
+                    <TableRow
+                      key={status.id}
+                      className="text-xs uppercase group"
+                    >
                       <TableCell className="font-medium">
                         {serialNo(meta.currentPage) + index}.
                       </TableCell>
-                      <TableCell>{attribute}</TableCell>
-                      <TableCell>{type}</TableCell>
+                      <TableCell>{status.name}</TableCell>
                       <TableCell>
-                        {dayjs(new Date(updated_at)).format(
-                          "MMM D, YYYY h:mm A"
+                        {dayjs(new Date(status.updated_at)).format(
+                          "DD/MM/YYYY h:mm A"
                         )}
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                           <button
                             type="button"
-                            onClick={() => setEditId(attr.id)}
+                            onClick={() => setEditId(status.id)}
                           >
                             <Pencil
                               size={14}
                               className="text-muted-foreground transition duration-200 group-hover:text-warning"
                             />
                           </button>
-                          <AppDeletePlanAttribute deleteId={attr.id} />
+                          {status.company_id && status.is_active && (
+                            <CoDeleteLeadStatus deleteId={status.id} />
+                          )}
+                          {!status.is_active && (
+                            <button
+                              type="button"
+                              onClick={() => activateStatus(status.id)}
+                            >
+                              <ThumbsUp
+                                size={14}
+                                className="text-muted-foreground transition duration-200 group-hover:text-primary"
+                              />
+                            </button>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
