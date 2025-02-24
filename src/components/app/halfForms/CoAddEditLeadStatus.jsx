@@ -57,8 +57,8 @@ const CoAddEditLeadStatus = ({ editId, leadStatus, setEditId }) => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     const apiUrl = editId
-      ? `/lead-status-master/${editId}`
-      : `/lead-status-master`;
+      ? `/company/lead-status/${editId}`
+      : `/company/lead-status`;
     const process = editId ? customFetch.put : customFetch.post;
     const msg = editId
       ? `Lead status updated successfully`
@@ -96,7 +96,7 @@ const CoAddEditLeadStatus = ({ editId, leadStatus, setEditId }) => {
   return (
     <div className="w-full md:basis-1/3 min-h-40 border rounded-lg p-4">
       <h3 className="text-lg font-medium tracking-wider text-muted-foreground mb-4">
-        {editId ? `Edit details` : `Add super admin`}
+        {editId ? `Edit details` : `Add lead status`}
       </h3>
       <Separator />
       <form onSubmit={handleSubmit} autoComplete="off" className="mt-4">

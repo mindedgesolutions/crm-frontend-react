@@ -42,10 +42,9 @@ const CoListLeadStatus = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get(
-        `/masters/lead-status/${company}`,
-        { params: { page: queryString.get("page") } }
-      );
+      const response = await customFetch.get(`/company/lead-status`, {
+        params: { page: queryString.get("page") },
+      });
 
       if (response.status === 200) {
         setLeadStatus(response.data.data);
@@ -65,7 +64,7 @@ const CoListLeadStatus = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.put(
-        `/lead-status-master-activate/${id}`
+        `/company/lead-status-activate/${id}`
       );
       if (response.status === 200) {
         dispatch(updateCounter());

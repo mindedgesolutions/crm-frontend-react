@@ -17,14 +17,14 @@ import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const CoDeleteLeadStatus = ({ deleteId }) => {
+const CoDeleteNetwork = ({ deleteId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      await customFetch.delete(`/company/lead-status/${deleteId}`);
+      await customFetch.delete(`/company/networks/${deleteId}`);
       setIsLoading(false);
       dispatch(updateCounter());
       showSuccess(`Lead status deactivated`);
@@ -64,4 +64,4 @@ const CoDeleteLeadStatus = ({ deleteId }) => {
     </AlertDialog>
   );
 };
-export default CoDeleteLeadStatus;
+export default CoDeleteNetwork;

@@ -18,4 +18,6 @@ export { default as AppPopoverAttr } from "@/components/app/AppPopoverAttr";
 export { default as AppCompanyView } from "@/components/app/modals/AppCompanyView";
 export { default as CoAddEditLeadStatus } from "@/components/app/halfForms/CoAddEditLeadStatus";
 export { default as CoDeleteLeadStatus } from "@/components/app/deleteComponents/CoDeleteLeadStatus";
+export { default as CoAddEditNetwork } from "@/components/app/halfForms/CoAddEditNetwork";
+export { default as CoDeleteNetwork } from "@/components/app/deleteComponents/CoDeleteNetwork";
 // Application related components end -----------------------------------------------------------
