@@ -19,22 +19,21 @@ import {
 } from "@/components/ui/table";
 import { activeBadge, roleBadge, serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
-import { Mail, ThumbsUp } from "lucide-react";
+import { Eye, Mail, Pencil, ThumbsUp } from "lucide-react";
 import showError from "@/utils/showError";
 import { useSelector } from "react-redux";
 import avatar from "@/assets/images/000m.jpg";
 
-const AppCoUsersList = () => {
+const CoListUsers = () => {
   document.title = `List of Users | ${import.meta.env.VITE_APP_TITLE}`;
 
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [meta, setMeta] = useState({
-    currentPage: 1,
+    currentPage: "",
     lastPage: "",
     totalRecords: "",
   });
-  const [companies, setCompanies] = useState([]);
   const [editId, setEditId] = useState("");
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
@@ -45,11 +44,10 @@ const AppCoUsersList = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get("/admin/company-users", {
+      const response = await customFetch.get("/company/users", {
         params: {
           page: queryString.get("page") || "",
           role: queryString.get("role") || "",
-          company: queryString.get("company") || "",
           search: queryString.get("search") || "",
         },
       });
@@ -61,7 +59,6 @@ const AppCoUsersList = () => {
           lastPage: response.data.meta.last_page,
           totalRecords: response.data.meta.total,
         });
-        setCompanies(response.data.companies);
       }
       setIsLoading(false);
     } catch (error) {
@@ -82,20 +79,6 @@ const AppCoUsersList = () => {
     queryString.get("search"),
   ]);
 
-  // ------------------------------------
-
-  const handleActivate = async (id) => {
-    setIsLoading(true);
-    try {
-      await customFetch.put(`/admin/activate-users/${id}`);
-      setIsLoading(false);
-      fetchData();
-    } catch (error) {
-      setIsLoading(false);
-      showError(error);
-    }
-  };
-
   return (
     <AppContentWrapper>
       {isLoading && <AppPageLoader />}
@@ -105,7 +88,7 @@ const AppCoUsersList = () => {
           List of Users
         </h3>
       </div>
-      <AppCoUsersListFilter companies={companies} />
+      <AppCoUsersListFilter />
       <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-4 p-2">
         <Table>
           <TableHeader>
@@ -173,7 +156,21 @@ const AppCoUsersList = () => {
                     <TableCell>
                       <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
                         {user.is_active ? (
-                          <AdminUserDelete deleteId={user.id} />
+                          <>
+                            <button>
+                              <Eye
+                                size={14}
+                                className="text-muted-foreground group-hover:text-info"
+                              />
+                            </button>
+                            <button>
+                              <Pencil
+                                size={14}
+                                className="text-muted-foreground group-hover:text-warning"
+                              />
+                            </button>
+                            <AdminUserDelete deleteId={user.id} />
+                          </>
                         ) : (
                           <button onClick={() => handleActivate(user.id)}>
                             <ThumbsUp size={14} className="text-primary" />
@@ -197,4 +194,4 @@ const AppCoUsersList = () => {
     </AppContentWrapper>
   );
 };
-export default AppCoUsersList;
+export default CoListUsers;

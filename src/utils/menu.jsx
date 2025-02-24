@@ -56,16 +56,17 @@ function allMenus() {
             title: "Networks",
             url: `/app/admin/${slug}/settings/networks`,
           },
-          {
-            title: "Users",
-            url: `/app/admin/${slug}/settings/users`,
-          },
+          // {
+          //   title: "Users",
+          //   url: `/app/admin/${slug}/settings/users`,
+          // },
           {
             title: "Groups",
             url: `/app/admin/${slug}/settings/groups`,
           },
         ],
       },
+      { title: "Users", url: `/app/admin/${slug}/users`, icon: Users },
       { title: "Leads", url: `/app/admin/${slug}/leads`, icon: Share2 },
     ],
     navManager: [],

@@ -110,7 +110,9 @@ const CoAddEditNetwork = ({ editId, setEditId, networks }) => {
     let data = Object.fromEntries(formData);
     data = { ...data, logo: networkLogo || null };
 
-    const url = editId ? `/company/networks/${editId}` : `/company/networks`;
+    const url = editId
+      ? `/company/network/update/${editId}`
+      : `/company/networks`;
     const msg = editId
       ? `Network updated successfully`
       : `Network added successfully`;
