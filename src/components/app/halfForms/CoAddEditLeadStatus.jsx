@@ -2,33 +2,41 @@ import { AppSubmitBtn } from "@/components";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateCounter } from "@/features/commonSlice";
-import store from "@/store";
 import customFetch from "@/utils/customFetch";
 import showError from "@/utils/showError";
 import showSuccess from "@/utils/showSuccess";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Button } from "antd";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-const CoAddEditLeadStatus = ({ editId }) => {
+const CoAddEditLeadStatus = ({ editId, leadStatus, setEditId }) => {
   const [form, setForm] = useState({ name: "" });
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
+  // ---------------------------------
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  // ---------------------------------
 
   const resetErrors = (e) => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  // ---------------------------------
+
   const resetForm = () => {
     setForm({ ...form, name: "" });
     setErrors([]);
+    setEditId(null);
   };
+
+  // ---------------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,12 +56,20 @@ const CoAddEditLeadStatus = ({ editId }) => {
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
+    const apiUrl = editId
+      ? `/lead-status-master/${editId}`
+      : `/lead-status-master`;
+    const process = editId ? customFetch.put : customFetch.post;
+    const msg = editId
+      ? `Lead status updated successfully`
+      : `Lead status added successfully`;
     setIsLoading(true);
     try {
-      const response = await customFetch.post(`/lead-status-master`, data);
-      if (response.status === 200) {
-        showSuccess(`Lead status added successfully`);
+      const response = await process(apiUrl, data);
+      if (response.status === 201 || response.status === 200) {
+        showSuccess(msg);
         resetForm();
+        setEditId(null);
         dispatch(updateCounter());
       }
       setIsLoading(false);
@@ -67,6 +83,15 @@ const CoAddEditLeadStatus = ({ editId }) => {
       return;
     }
   };
+
+  // ---------------------------------
+
+  useEffect(() => {
+    if (editId) {
+      const status = leadStatus.find((status) => status.id === editId);
+      setForm({ ...form, name: status.name });
+    }
+  }, [editId]);
 
   return (
     <div className="w-full md:basis-1/3 min-h-40 border rounded-lg p-4">

@@ -137,28 +137,33 @@ const CoListLeadStatus = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:gap-4">
-                          <button
-                            type="button"
-                            onClick={() => setEditId(status.id)}
-                          >
-                            <Pencil
-                              size={14}
-                              className="text-muted-foreground transition duration-200 group-hover:text-warning"
-                            />
-                          </button>
-                          {status.company_id && status.is_active && (
-                            <CoDeleteLeadStatus deleteId={status.id} />
-                          )}
-                          {!status.is_active && (
-                            <button
-                              type="button"
-                              onClick={() => activateStatus(status.id)}
-                            >
-                              <ThumbsUp
-                                size={14}
-                                className="text-muted-foreground transition duration-200 group-hover:text-primary"
-                              />
-                            </button>
+                          {status.company_id && (
+                            <>
+                              {status.is_active ? (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => setEditId(status.id)}
+                                  >
+                                    <Pencil
+                                      size={14}
+                                      className="text-muted-foreground transition duration-200 group-hover:text-warning"
+                                    />
+                                  </button>
+                                  <CoDeleteLeadStatus deleteId={status.id} />
+                                </>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => activateStatus(status.id)}
+                                >
+                                  <ThumbsUp
+                                    size={14}
+                                    className="text-muted-foreground transition duration-200 group-hover:text-primary"
+                                  />
+                                </button>
+                              )}
+                            </>
                           )}
                         </div>
                       </TableCell>

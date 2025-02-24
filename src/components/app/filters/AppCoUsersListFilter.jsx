@@ -40,6 +40,7 @@ const AppCoUsersListFilter = ({ companies }) => {
       return;
     }
 
+    searchParams.delete("page");
     data.role && searchParams.set("role", data.role);
     data.company && searchParams.set("company", data.company);
     data.search && searchParams.set("search", data.search);
