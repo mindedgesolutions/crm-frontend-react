@@ -83,10 +83,10 @@ const router = createBrowserRouter([
         children: [
           { path: "lead-status", element: <crm.CoListLeadStatus /> },
           { path: "networks", element: <crm.CoListNetworks /> },
-          { path: "users", element: <crm.CoListUsers /> },
           { path: "groups", element: <crm.CoListGroups /> },
         ],
       },
+      { path: "users", element: <crm.CoListUsers /> },
       { path: "leads", element: <crm.CoLeadsAdmin /> },
     ],
   },

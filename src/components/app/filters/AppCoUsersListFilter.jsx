@@ -13,6 +13,7 @@ const AppCoUsersListFilter = ({ companies }) => {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const [form, setForm] = useState({ role: "", company: "", search: "" });
+  const role = currentUser?.roles?.[0]?.name;
 
   // ------------------------------------
 
@@ -23,7 +24,12 @@ const AppCoUsersListFilter = ({ companies }) => {
   // ------------------------------------
 
   const resetFilters = () => {
-    navigate(`/admin/${currentUser.user_detail.slug}/users/client`);
+    const path =
+      role === "super admin"
+        ? `/admin/${currentUser.user_detail.slug}/users/client`
+        : `/app/${role}/${currentUser.user_detail.slug}/users`;
+
+    navigate(path);
     setForm({ ...form, role: "", company: "", search: "" });
   };
 
@@ -78,22 +84,24 @@ const AppCoUsersListFilter = ({ companies }) => {
             );
           })}
         </select>
-        <select
-          name="company"
-          id="company"
-          value={form.company}
-          onChange={handleChange}
-          className="flex h-8 w-full md:w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
-        >
-          <option value="">- Filter by company -</option>
-          {companies.map((co) => {
-            return (
-              <option key={nanoid()} value={co.slug}>
-                {co.name}
-              </option>
-            );
-          })}
-        </select>
+        {role === "super admin" && (
+          <select
+            name="company"
+            id="company"
+            value={form.company}
+            onChange={handleChange}
+            className="flex h-8 w-full md:w-48 items-center justify-between rounded-md bg-background px-2 py-1 text-sm focus:outline-none"
+          >
+            <option value="">- Filter by company -</option>
+            {companies.map((co) => {
+              return (
+                <option key={nanoid()} value={co.slug}>
+                  {co.name}
+                </option>
+              );
+            })}
+          </select>
+        )}
         <Input
           type="text"
           className="w-full md:w-48 h-8 px-2 py-1 focus:outline-none"

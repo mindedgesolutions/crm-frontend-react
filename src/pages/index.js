@@ -38,7 +38,7 @@ export { default as CoEmployeeDashboard } from "@/pages/app/company/employee/CoE
 export { default as CoListGroups } from "@/pages/app/company/admin/settings/CoListGroups";
 export { default as CoListLeadStatus } from "@/pages/app/company/admin/settings/CoListLeadStatus";
 export { default as CoListNetworks } from "@/pages/app/company/admin/settings/CoListNetworks";
-export { default as CoListUsers } from "@/pages/app/company/admin/settings/CoListUsers";
+export { default as CoListUsers } from "@/pages/app/company/admin/CoListUsers";
 export { default as CoLeadsAdmin } from "@/pages/app/company/admin/CoLeadsAdmin";
 // Company Routes end here ----------------------------------------------
 
